@@ -10,3 +10,9 @@ RUN docker-php-ext-install \
     zip
     
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY . /var/www/html
+
+RUN a2enmod rewrite

@@ -18,3 +18,5 @@ services:
       - ./:/var/www/html
     ports:
       - "80:80"
+    depends_on:
+      - db

@@ -1,0 +1,49 @@
+textarea {
+	resize: vertical;
+}
+textarea, input[type=text] {
+	border: solid 1px gray;
+	box-sizing: border-box;
+	padding: 4px;
+	width: 100%;
+}
+body {
+	text-align: center;
+	background-color: #eee;
+}
+.bbs-messages {
+	margin: 0 auto;
+	width: 60%;
+}
+
+.bbs-message {
+	text-align: left;
+	border: 1px solid;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.bbs-message-header {
+	font-size: 0.7em;
+}
+
+.bbs-message-name {
+	font-weight: bold;
+}
+
+.bbs-message-content {
+	font-size: 1em;
+}
+
+.bbs-message-button {
+	display: inline-flex;
+}
+
+.post-table {
+	margin: 0 auto;
+}
+
+.post-table span {
+	text-align: left;
+}
