@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $guarded = array('id');
+	protected $guarded = array('id');
 
-    public static $rules = array(
-        'name' => 'required',
-        'content' => 'required'
-    );
+	public static $rules = array(
+		'name' => 'required',
+		'content' => 'required'
+	);
 }

@@ -8,30 +8,115 @@ use Illuminate\Http\Request;
 class BbsController extends Controller
 {
 	public function index() {
-		$articles = array(
-			[
-				'id'=>1,
-				'name'=>'名無しのプログラマ',
-				'content'=>'ようこそ掲示板へ\n次スレは>>950を踏んだ人が立ててください。',
-				'updated_at'=>'today'
-			],
-			[
-				'id'=>2,
-				'name'=>'脆弱性を突くプログラマ',
-				'content'=>'<b>太字</b> / <i>斜め</i> / <u>下線</u>',
-				'updated_at'=>'today'
-			]
-		);
-
-		// return view('bbs.index', ['articles' => $articles]);
-
 		$articles = Article::all();
-		return view('bbs.index', ['articles' => $articles->toArray()]);
+
+		return view('bbs.index', ['articles' => $articles]);
 	}
 
 	public function post_confirm(Request $request) {
 		$form = $request->all();
-		return view('bbs.post_confrim', ['data' => $form]);
-		// return view('bbs.post_confrim', ['data' => var_export($form, true)]);
+		unset($form['_token']);
+		if(!$form['name'] || !$form['content']) {
+			return redirect('/');
+		}
+
+		$request->session()->put('name', $form['name']);
+		$request->session()->put('content', $form['content']);
+		
+		return view('bbs.post_confirm', ['data' => $form]);
+	}
+
+	public function post_complete(Request $request) {
+		$form = $request->all();
+		unset($form['_token']);
+
+		$name = $request->session()->get('name');
+		$content = $request->session()->get('content');
+		$request->session()->forget('name');
+		$request->session()->forget('content');
+		$post = array(
+			'name' => $name,
+			'content' => $content
+		);
+		if(!$post['name'] || !$post['content']) {
+			return redirect('/');
+		}
+
+		$article = new Article;
+		$article->fill($post)->save();
+
+		return view('bbs.post_complete');
+	}
+
+	public function editing(Request $request) {
+		$form = $request->all();
+		unset($form['_token']);
+		if(!$request->id) {
+			return redirect('/');
+		}
+		$request->session()->put('id', $request->id);
+
+		$article = Article::find($request->id);
+		if(!$article) {
+			$request->session()->forget('id');
+			return redirect('/');
+		}
+
+		return view('bbs.editing', ['data' => $article]);
+	}
+
+	public function edit_complete (Request $request) {
+		$form = $request->all();
+		unset($form['_token']);
+		if(!$form['name'] || !$form['content']) {
+			$request->session()->forget('id');
+			return redirect('/');
+		}
+
+		$id = $request->session()->get('id');
+		$request->session()->forget('id');
+		if(!$id) {
+			return redirect('/');
+		}
+
+		$article = Article::find($id);
+		$article->name = $form['name'];
+		$article->content = $form['content'];
+		$article->save();
+
+		return view('bbs.edit_complete');
+	}
+
+	public function delete_confirm (Request $request) {
+		$form = $request->all();
+		unset($form['_token']);
+
+		if(!$request->id) {
+			return redirect('/');
+		}
+		$request->session()->put('id', $request->id);
+
+		$article = Article::find($request->id);
+		if(!$article) {
+			$request->session()->forget('id');
+			return redirect('/');
+		}
+
+		return view('bbs.delete_confirm', ['data' => $article]);
+	}
+
+	public function delete_complete (Request $request) {
+		$form = $request->all();
+		unset($form['_token']);
+
+		$id = $request->session()->get('id');
+		$request->session()->forget('id');
+		if(!$id) {
+			return redirect('/');
+		}
+
+		$article = Article::find($id)->delete();
+
+		return view('bbs.delete_complete');
 	}
 }

@@ -14,7 +14,7 @@
 	<tr><th>投稿内容</th><td><span><pre>{{ $data['content'] }}</pre></span></td></tr>
 	</tbody>
 </table>
-<form action="{{ url('/') }}" method="post">
+<form action="{{ url('/post_complete') }}" method="post">
 	@csrf
 	<button type="submit">投稿</button>
 </form>

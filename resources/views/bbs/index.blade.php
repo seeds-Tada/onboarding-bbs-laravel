@@ -11,21 +11,21 @@
 	@foreach ($articles as $article)
 		<div class="bbs-message">
 			<div class="bbs-message-header">
-				{{ $article['id'] }}:&nbsp;<span class="bbs-message-name">{{ $article['name'] }}</span>&nbsp;{{ $article['updated_at'] }}
+				{{ $article->id }}:&nbsp;<span class="bbs-message-name">{{ $article->name }}</span>&nbsp;{{ $article->updated_at }}
 			</div>
 			<div class="bbs-message-content">
-				<pre>{{ $article['content'] }}</pre>
+				<pre>{{ $article->content }}</pre>
 			</div>
 			<div class="bbs-message-button">
-				<form action="" method="post">
+				<form action="{{ url('/editing') }}" method="post">
 					@csrf
-					<input type="hidden" name="id" value="{{ $article['id'] }}">
+					<input type="hidden" name="id" value="{{ $article->id }}">
 					<button type="submit">編集</button>
 				</form>
 				&nbsp;
-				<form action="" method="post">
+				<form action="{{ url('/delete_confirm') }}" method="post">
 					@csrf
-					<input type="hidden" name="id" value="{{ $article['id'] }}">
+					<input type="hidden" name="id" value="{{ $article->id }}">
 					<button type="submit">削除</button>
 				</form>
 			</div>
@@ -33,7 +33,7 @@
 		<br />
 	@endforeach
 </div>
-<form action="{{ url('/post_confrim') }}" method="post">
+<form action="{{ url('/post_confirm') }}" method="post">
 	@csrf
 	<table class="post-table">
 		<thead>
