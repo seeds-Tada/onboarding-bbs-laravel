@@ -22,6 +22,7 @@ Route::post('/post_complete', [BbsController::class, 'post_complete']);
 
 Route::post('/editing', [BbsController::class, 'editing']);
 Route::post('/edit_complete', [BbsController::class, 'edit_complete']);
+Route::get('/editing', [BbsController::class, 'index']);
 
 Route::post('/delete_confirm', [BbsController::class, 'delete_confirm']);
 Route::post('/delete_complete', [BbsController::class, 'delete_complete']);

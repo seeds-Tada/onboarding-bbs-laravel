@@ -35,6 +35,10 @@ body {
 .bbs-message-content {
 	font-size: 1em;
 }
+.bbs-message-content pre {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
 
 .bbs-message-button {
 	display: inline-flex;

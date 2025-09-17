@@ -10,9 +10,4 @@ class Article extends Model
 	use HasFactory;
 
 	protected $guarded = array('id');
-
-	public static $rules = array(
-		'name' => 'required',
-		'content' => 'required'
-	);
 }

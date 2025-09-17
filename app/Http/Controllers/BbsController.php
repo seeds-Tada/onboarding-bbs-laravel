@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 
 class BbsController extends Controller
 {
@@ -13,12 +15,10 @@ class BbsController extends Controller
 		return view('bbs.index', ['articles' => $articles]);
 	}
 
-	public function post_confirm(Request $request) {
+	public function post_confirm(ArticleCreateRequest $request) {
 		$form = $request->all();
 		unset($form['_token']);
-		if(!$form['name'] || !$form['content']) {
-			return redirect('/');
-		}
+
 
 		$request->session()->put('name', $form['name']);
 		$request->session()->put('content', $form['content']);
@@ -48,12 +48,10 @@ class BbsController extends Controller
 		return view('bbs.post_complete');
 	}
 
-	public function editing(Request $request) {
+	public function editing(ArticleUpdateRequest $request) {
 		$form = $request->all();
 		unset($form['_token']);
-		if(!$request->id) {
-			return redirect('/');
-		}
+
 		$request->session()->put('id', $request->id);
 
 		$article = Article::find($request->id);
@@ -65,7 +63,7 @@ class BbsController extends Controller
 		return view('bbs.editing', ['data' => $article]);
 	}
 
-	public function edit_complete (Request $request) {
+	public function edit_complete (ArticleCreateRequest $request) {
 		$form = $request->all();
 		unset($form['_token']);
 		if(!$form['name'] || !$form['content']) {
