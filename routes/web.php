@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BbsController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +14,16 @@ use App\Http\Controllers\BbsController;
 |
 */
 
-Route::get('/', [BbsController::class, 'index']);
-Route::post('/', [BbsController::class, 'index']);
+Route::get('/', [ArticleController::class, 'index']);
 
-Route::post('/post_confirm', [BbsController::class, 'post_confirm']);
-Route::post('/post_complete', [BbsController::class, 'post_complete']);
+Route::post('/post_confirm', [ArticleController::class, 'post_confirm']);
+Route::get('/post_confirm', [ArticleController::class, '']);
+Route::post('/post_complete', [ArticleController::class, 'post_complete']);
 
-Route::post('/editing', [BbsController::class, 'editing']);
-Route::post('/edit_complete', [BbsController::class, 'edit_complete']);
-Route::get('/editing', [BbsController::class, 'index']);
+Route::post('/editing', [ArticleController::class, 'editing']);
+Route::get('/editing', [ArticleController::class, 'index']);
+Route::post('/edit_complete', [ArticleController::class, 'edit_complete']);
 
-Route::post('/delete_confirm', [BbsController::class, 'delete_confirm']);
-Route::post('/delete_complete', [BbsController::class, 'delete_complete']);
+Route::post('/delete_confirm', [ArticleController::class, 'delete_confirm']);
+Route::get('/delete_confirm', [ArticleController::class, 'index']);
+Route::post('/delete_complete', [ArticleController::class, 'delete_complete']);

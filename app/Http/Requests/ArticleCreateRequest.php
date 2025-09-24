@@ -11,7 +11,7 @@ class ArticleCreateRequest extends FormRequest
 	 */
 	public function authorize(): bool
 	{
-		if($this->path() === 'post_confirm' || $this->path() === 'edit_complete') {
+		if($this->path() === 'post_confirm' || $this->path() === 'edit_complete' || $this->path() === 'post_complete' || $this->path() === 'post_complete') {
 			return true;
 		}else {
 			return false;

@@ -11,7 +11,7 @@ class ArticleUpdateRequest extends FormRequest
 	 */
 	public function authorize(): bool
 	{
-		if($this->path() === 'editing') {
+		if($this->path() === 'editing' || $this->path() === 'delete_confirm' || $this->path() === 'delete_complete') {
 			return true;
 		}
 		return false;
