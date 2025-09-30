@@ -15,8 +15,14 @@ services:
       context: docker/web
       dockerfile: Dockerfile
     volumes:
-      - ./:/var/www/html
+      - ./:/app
     ports:
       - "80:80"
     depends_on:
       - db
+    command: /bin/bash -c "
+        /usr/local/bin/wait-for-it.sh db:3306 -t 30 -- \
+        php artisan migrate && \
+        php artisan db:seed && \
+        exec /usr/local/bin/apache2-foreground
+      "
