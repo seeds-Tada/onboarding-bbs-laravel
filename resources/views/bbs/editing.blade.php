@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<form action="{{ url('/edit_complete') }}" method="post">
+<form action="{{ url('/edit_complete/'.$id) }}" method="post">
 	@csrf
 	<table class="post-table">
 		<input name="id" id="id" value="{{$id}}" readonly hidden>

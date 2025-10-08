@@ -17,13 +17,13 @@
 				<pre>{{ $article->content }}</pre>
 			</div>
 			<div class="bbs-message-button">
-				<form action="{{ url('/editing') }}" method="post">
+				<form action="{{ url('/editing/'.$article->id) }}" method="post">
 					@csrf
 					<input type="hidden" name="id" value="{{ $article->id }}">
 					<button type="submit">編集</button>
 				</form>
 				&nbsp;
-				<form action="{{ url('/delete_confirm') }}" method="post">
+				<form action="{{ url('/delete_confirm/'.$article->id) }}" method="post">
 					@csrf
 					<input type="hidden" name="id" value="{{ $article->id }}">
 					<button type="submit">削除</button>

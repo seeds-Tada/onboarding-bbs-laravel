@@ -20,7 +20,7 @@
 		</tr>
 	</tbody>
 </table>
-<form action="{{ url('/delete_complete') }}" method="post">
+<form action="{{ url('/delete_complete/'.$id) }}" method="post">
 	@csrf
 	<input name="id" id="id" value="{{$id}}" readonly hidden>
 	<button type="submit">削除</button>
