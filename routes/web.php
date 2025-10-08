@@ -25,5 +25,4 @@ Route::get('/editing/{article}', [ArticleController::class, 'index']);
 Route::post('/edit_complete/{article}', [ArticleController::class, 'edit_complete']);
 
 Route::post('/delete_confirm/{article}', [ArticleController::class, 'delete_confirm']);
-Route::get('/delete_confirm/{article}', [ArticleController::class, 'index']);
 Route::post('/delete_complete/{article}', [ArticleController::class, 'delete_complete']);
