@@ -16,7 +16,7 @@
 		</tr>
 		<tr>
 			<th>投稿内容</th>
-			<td><span><pre>{{ $data->content }}<pre></span></td>
+			<td><span><pre>{{ $data->content }}</pre></span></td>
 		</tr>
 	</tbody>
 </table>

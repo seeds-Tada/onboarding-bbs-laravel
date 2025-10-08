@@ -30,13 +30,7 @@ class ArticleController extends Controller
 	}
 
 	public function editing(Request $request, Article $article) {
-		if(!$article) {
-			return redirect('/');
-		}
-
-		$data = $article;
-		$id = $article['id'];
-		return view('bbs.editing', compact('data', 'id'));
+		return view('bbs.editing', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
 	public function edit_complete (ArticlePostRequest $request, Article $article) {
@@ -50,13 +44,7 @@ class ArticleController extends Controller
 	}
 
 	public function delete_confirm (Request $request, Article $article) {
-		if(!$article) {
-			return redirect('/');
-		}
-
-		$data = $article;
-		$id = $article['id'];
-		return view('bbs.delete_confirm', compact('data', 'id'));
+		return view('bbs.delete_confirm', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
 	public function delete_complete (Request $request, Article $article) {		
