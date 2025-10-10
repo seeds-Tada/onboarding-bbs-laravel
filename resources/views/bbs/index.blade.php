@@ -44,16 +44,24 @@
 		<tbody>
 			<tr>
 				<th><label for="name">名前</label></th>
-				<td><input type="text" name="name" id="name"></td>
+				<td><input type="text" name="name" id="name" value="{{ old('name') }}"></td>
 			</tr>
 			<tr>
 				<th><label for="content">投稿内容</label></th>
-				<td><textarea name="content" id="content" rows="4"></textarea></td>
+				<td><textarea name="content" id="content" rows="4"> {{ old('content') }}</textarea></td>
 			</tr>
 		</tbody>
 	</table>
 	<button type="submit">投稿</button>
 </form>
+
+@if (count($errors) > 0)
+	<div class="error-mes">
+		@foreach ($errors->all() as $error)
+			<span>{{$error}}</span>
+		@endforeach
+	</div>
+@endif
 @endsection
 
 @section('footer')

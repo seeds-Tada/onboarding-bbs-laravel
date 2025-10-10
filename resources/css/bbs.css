@@ -51,3 +51,10 @@ body {
 .post-table span {
 	text-align: left;
 }
+
+.error-mes {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	color: red;
+}
