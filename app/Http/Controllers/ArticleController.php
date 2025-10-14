@@ -24,7 +24,14 @@ class ArticleController extends Controller
 		$form = $request->only(['name', 'content']);
 
 		$article = new Article;
-		$article->fill($form)->save();
+		$result = $article->fill($form)->save();
+
+		if($result) {
+			session()->flash("flash.success", "登録が完了しました。");
+		}else {
+			session()->flash("flash.error", "登録が失敗しました。");
+		}
+
 
 		return view('bbs.post_complete');
 	}
@@ -38,7 +45,15 @@ class ArticleController extends Controller
 
 		$article->name = $form['name'];
 		$article->content = $form['content'];
-		$article->save();
+
+		$result = $article->save();
+
+		if($result) {
+			session()->flash("flash.success", "編集が完了しました。");
+		}else {
+			session()->flash("flash.error", "編集が失敗しました。");
+		}
+
 
 		return view('bbs.edit_complete');
 	}
@@ -48,7 +63,14 @@ class ArticleController extends Controller
 	}
 
 	public function delete_complete (Request $request, Article $article) {		
-		$article->delete();
+		$result = $article->delete();
+
+		if($result) {
+			session()->flash("flash.success", "削除が完了しました。");
+		}else {
+			session()->flash("flash.error", "削除が失敗しました。");
+		}
+
 
 		return view('bbs.delete_complete');
 	}

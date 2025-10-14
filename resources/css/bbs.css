@@ -58,3 +58,47 @@ body {
 	flex-direction: column;
 	color: red;
 }
+
+.flash-alert {
+	position: relative;
+	padding: 0.75rem 1.25rem;
+	margin-bottom: 1rem;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+	animation: fadeOut 2s;
+	animation-fill-mode: both;
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+
+		opacity: 0;
+	}
+}
+
+.flash-alert-success {
+	position:fixed;
+	top: 9%;
+	width: 100%;
+	color: #1d643b;
+	background-color: #d7f3e3;
+	border-color: #c7eed8;
+	transform: translateY(-50%);
+	text-align: center;
+	z-index: 99;
+}
+
+.flash-alert-error {
+	position:fixed;
+	top: 9%;
+	width: 100%;
+	color: #f00;
+	background-color: #fff;
+	font-size: 1.5rem;
+	transform: translateY(-50%);
+	text-align: center;
+	z-index: 99;
+}

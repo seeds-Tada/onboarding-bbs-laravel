@@ -7,6 +7,13 @@
 @endsection
 
 @section('content')
+	@if( session("flash") )
+		@foreach( session("flash") as $key => $item )
+			<div class="flash-alert flash-alert-{{ $key }}">
+				{{ session("flash.".$key) }}
+			</div>
+		@endforeach
+	@endif
 <div class="bbs-messages">
 	@foreach ($articles as $article)
 		<div class="bbs-message">
