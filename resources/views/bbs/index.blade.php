@@ -40,7 +40,7 @@
 		<br />
 	@endforeach
 </div>
-<form action="{{ url('/post_confirm') }}" method="post">
+<form action="{{ url('/post_complete') }}" method="post">
 	@csrf
 	<table class="post-table">
 		<thead>

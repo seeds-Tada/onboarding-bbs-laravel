@@ -16,8 +16,6 @@ use App\Http\Controllers\ArticleController;
 
 Route::get('/', [ArticleController::class, 'index']);
 
-Route::post('/post_confirm', [ArticleController::class, 'post_confirm']);
-Route::get('/post_confirm', [ArticleController::class, 'index']);
 Route::post('/post_complete', [ArticleController::class, 'post_complete']);
 
 Route::post('/editing/{article}', [ArticleController::class, 'editing']);

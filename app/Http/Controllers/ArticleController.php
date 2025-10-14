@@ -14,12 +14,6 @@ class ArticleController extends Controller
 		return view('bbs.index', compact('articles'));
 	}
 
-	public function post_confirm(ArticlePostRequest $request) {
-		$data = $request->only(['name', 'content']);
-
-		return view('bbs.post_confirm', compact('data'));
-	}
-
 	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
 
