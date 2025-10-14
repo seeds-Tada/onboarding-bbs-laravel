@@ -1,66 +1,74 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# オンボーディング掲示板（Laravel）
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+以下のリポジトリを **Laravel** で実装してください。
 
-## About Laravel
+対象リポジトリ：[https://github.com/seeds-std/onboarding-bbs](https://github.com/seeds-std/onboarding-bbs)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+下記の **基本課題** を完了したら、**チャレンジ課題①②③④** に挑戦してください。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🎯 目的
 
-## Learning Laravel
+- Laravelの基本（ルーティング／MVC／マイグレーション／Eloquent／ミドルウェア／バリデーション／認証）を一通り体験する
+- 要件を自分で仕様に落とし込み、拡張しやすい設計にする
+- セキュリティ、品質（テスト、例外処理、ロギング）を意識する
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## ⚙️ 開発環境（例）
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Dockerで完結させてください。
 
-## Laravel Sponsors
+- PHP 8.2+
+- Laravel 12系（推奨）
+- MariaDB 10.6+ または MySQL 8+
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🧩 基本課題
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 機能要件
 
-## Contributing
+- 投稿一覧
+- 投稿作成・編集・削除（バリデーション、CSRF対策）
+- フラッシュメッセージ表示
+- バリデーションエラーの表示と入力保持
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🧠 チャレンジ課題
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### ① 確認画面を廃止して即投稿できるようにする
 
-## Security Vulnerabilities
+- 投稿確認画面を削除し、フォーム送信で即保存
+- バリデーションOKならリダイレクト、失敗時はフォームに戻す
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### ② コメント機能（ツリー構造）を追加
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- 投稿にコメントを追加
+- コメントへのコメント（入れ子）も可能
+- コメントはツリー構造でDBに保存
+
+---
+
+### ③ 認証導入：ログインユーザーのみ投稿・コメント可／本人のみ編集・削除可
+
+- 未ログインユーザーは閲覧のみ
+- ログインユーザーのみ投稿・コメント可
+- 自分の投稿・コメントのみ編集／削除可
+- ログイン・ログアウト機能追加（`users`テーブル使用）
+
+---
+
+### ④ 管理画面を実装（/admin 以下、一般とは完全分離）
+
+- 一般ユーザーと完全分離した管理ログイン
+- `/admin` 配下に管理画面を構築
+- 以下のCRUDが可能：
+  - 投稿
+  - コメント
+  - 管理者
+  - 一般ユーザー
