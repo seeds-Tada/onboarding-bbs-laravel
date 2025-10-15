@@ -16,6 +16,7 @@ class ArticleController extends Controller
 
 	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
+		$form += array('reply' => 0);
 
 		$article = new Article;
 		$result = $article->fill($form)->save();

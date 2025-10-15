@@ -15,6 +15,7 @@ return new class extends Migration
 			$table->increments('id');
 			$table->string('name');
 			$table->text('content');
+			$table->integer('reply');
 			$table->timestamps();
 		});
 	}
