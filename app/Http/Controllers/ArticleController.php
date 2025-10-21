@@ -65,10 +65,12 @@ class ArticleController extends Controller
 					"name" => $article->name,
 					"content" => $article->content,
 					"reply" => array(),
+					"created_at" => $article->created_at,
+					"updated_at" => $article->updated_at
 				);
-			}else {		// reply_idが0ではない投稿は何らかの投稿に対する返信である
+			}else {		// reply_idが0ではない投稿は返信である
 				foreach($data as $replyTo) {
-					if($replyTo["id"] <= $article->reply_id) {		// $article["reply_id"]ではデータベースでオートインクリメントされているarticleテーブルのidを指定する、そのためこれを上回るidの投稿（まだ投稿されていないもの）に対して返信することはできない
+					if($replyTo["id"] <= $article->reply_id) {		// ?
 						if($replyTo["id"] === $article->reply_id) {		// article["reply_id"]の数字がarticle["id"]と同じとき、そのidの投稿に対する返信である
 							// echo ("id:" . $replyTo["id"] . " <- id:" . $article->id . " push message!<br>");
 							$data[$article->reply_id]["reply"][$article->id] = array(
@@ -76,6 +78,8 @@ class ArticleController extends Controller
 								"name" => $article->name,
 								"content" => $article->content,
 								"reply" => array(),
+								"created_at" => $article->created_at,
+								"updated_at" => $article->updated_at,
 							);
 							return $data;
 						}else {		// article["reply_id"]の数字がarticle["id"]と同じではないとき、その投稿に対する返信ではない 又は その投稿への返信に対する返信である
@@ -108,19 +112,19 @@ class ArticleController extends Controller
 			$data = reply_push($data, $article);
 		}
 
-		foreach($data as $tmp) {
-			var_dump($tmp);
-			echo ("<br><br>");
-		}
-		echo ("<br><br>");
-		echo ("<br><br>");
+		// foreach($data as $tmp) {
+		// 	var_dump($tmp);
+		// 	echo ("<br><br>");
+		// }
+		// echo ("<br><br>");
+		// echo ("<br><br>");
 
 		return view('bbs.index', ['articles'=>$data]);
 	}
 
 	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
-		$form += array('reply_id'=>1);	//　reply_idにどの投稿に対する返信なのかを入力する
+		$form += array('reply_id'=>10);	//　reply_idにどの投稿に対する返信なのかを入力する
 
 		$article = new Article;
 		$result = $article->fill($form)->save();

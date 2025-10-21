@@ -102,3 +102,12 @@ body {
 	text-align: center;
 	z-index: 99;
 }
+
+.index-reply-switch {
+	font-weight: normal;
+	font-size: 0.8rem;
+}
+.index-reply-to {
+	font-size: 0.7rem;
+	margin-right: 10px;
+}
