@@ -8,8 +8,7 @@ use App\Http\Requests\ArticlePostRequest;
 
 class ArticleController extends Controller
 {
-	public function index()
-	{
+	public function index() {
 		function reply_push($data, $article) {
 			/*
 				木構造を配列で表現する
@@ -60,17 +59,17 @@ class ArticleController extends Controller
 				どの投稿に対する返信なのかをreply_idに保存する
 				reply_idが0である投稿は返信ではない
 			*/
-			if ($article->reply_id === 0) {		// reply_idが0はである投稿は返信ではない
+			if($article->reply_id === 0) {		// reply_idが0である投稿は返信ではない
 				$data[$article->id] = array(
 					"id" => $article->id,
 					"name" => $article->name,
 					"content" => $article->content,
 					"reply" => array(),
 				);
-			} else {		// reply_idが0はではない投稿は何らかの投稿に対する返信である
-				foreach ($data as $replyTo) {
-					if ($replyTo["id"] <= $article->reply_id) {		// $article["reply_id"]はデータベースでオートインクリメントされるid、そのためこれを上回るidの投稿（まだ投稿されていないもの）に対して返信することはできない
-						if ($replyTo["id"] === $article->reply_id) {		// article["reply_id"]の数字がarticle["id"]と同じとき、そのidの投稿に対する返信である
+			}else {		// reply_idが0ではない投稿は何らかの投稿に対する返信である
+				foreach($data as $replyTo) {
+					if($replyTo["id"] <= $article->reply_id) {		// $article["reply_id"]ではデータベースでオートインクリメントされているarticleテーブルのidを指定する、そのためこれを上回るidの投稿（まだ投稿されていないもの）に対して返信することはできない
+						if($replyTo["id"] === $article->reply_id) {		// article["reply_id"]の数字がarticle["id"]と同じとき、そのidの投稿に対する返信である
 							// echo ("id:" . $replyTo["id"] . " <- id:" . $article->id . " push message!<br>");
 							$data[$article->reply_id]["reply"][$article->id] = array(
 								"id" => $article->id,
@@ -79,8 +78,8 @@ class ArticleController extends Controller
 								"reply" => array(),
 							);
 							return $data;
-						} else {		// article["reply_id"]の数字がarticle["id"]と同じではないとき、その投稿に対する変死ではない 又は その投稿への返信に対する返信である
-							if (!empty($replyTo["reply"])) {		// その投稿への返信があるかどうか
+						}else {		// article["reply_id"]の数字がarticle["id"]と同じではないとき、その投稿に対する返信ではない 又は その投稿への返信に対する返信である
+							if(!empty($replyTo["reply"])) {		// その投稿への返信があるかどうか
 								/*
 									その投稿への返信に対する返信であれば、その投稿への返信に対する返信を追加したものに置き換える
 									その投稿への返信に対する返信でなければ、何も変わらない（同じものと置き換える）
@@ -105,41 +104,30 @@ class ArticleController extends Controller
 
 		$articles = Article::all();
 		$data = array();
-		foreach ($articles as $article) {
+		foreach($articles as $article) {
 			$data = reply_push($data, $article);
 		}
 
-		foreach ($data as $tmp) {
+		foreach($data as $tmp) {
 			var_dump($tmp);
 			echo ("<br><br>");
 		}
 		echo ("<br><br>");
 		echo ("<br><br>");
 
-		return view('bbs.index', ['articles' => $data]);
+		return view('bbs.index', ['articles'=>$data]);
 	}
 
-
-
-
-
-
-
-
-
-
-
-	public function post_complete(ArticlePostRequest $request)
-	{
+	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
-		$form += array('reply_id' => 1);	//　reply_idにどの投稿に対する返信なのかを入力する
+		$form += array('reply_id'=>1);	//　reply_idにどの投稿に対する返信なのかを入力する
 
 		$article = new Article;
 		$result = $article->fill($form)->save();
 
-		if ($result) {
+		if($result) {
 			session()->flash("flash.success", "登録が完了しました。");
-		} else {
+		}else {
 			session()->flash("flash.error", "登録が失敗しました。");
 		}
 
@@ -147,13 +135,11 @@ class ArticleController extends Controller
 		return view('bbs.post_complete');
 	}
 
-	public function editing(Request $request, Article $article)
-	{
-		return view('bbs.editing', ['data' => $article, 'id' => $article['id']]);
+	public function editing(Request $request, Article $article) {
+		return view('bbs.editing', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
-	public function edit_complete(ArticlePostRequest $request, Article $article)
-	{
+	public function edit_complete(ArticlePostRequest $request, Article $article) {
 		$form = $request->only(['name', 'content']);
 
 		$article->name = $form['name'];
@@ -161,28 +147,25 @@ class ArticleController extends Controller
 
 		$result = $article->save();
 
-		if ($result) {
+		if($result) {
 			session()->flash("flash.success", "編集が完了しました。");
-		} else {
+		}else {
 			session()->flash("flash.error", "編集が失敗しました。");
 		}
-
 
 		return view('bbs.edit_complete');
 	}
 
-	public function delete_confirm(Request $request, Article $article)
-	{
-		return view('bbs.delete_confirm', ['data' => $article, 'id' => $article['id']]);
+	public function delete_confirm(Request $request, Article $article) {
+		return view('bbs.delete_confirm', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
-	public function delete_complete(Request $request, Article $article)
-	{
+	public function delete_complete(Request $request, Article $article) {
 		$result = $article->delete();
 
-		if ($result) {
+		if($result) {
 			session()->flash("flash.success", "削除が完了しました。");
-		} else {
+		}else {
 			session()->flash("flash.error", "削除が失敗しました。");
 		}
 
@@ -190,218 +173,3 @@ class ArticleController extends Controller
 		return view('bbs.delete_complete');
 	}
 }
-
-
-
-// array(5) {
-// 	[1]=> array(4) {
-// 		["id"]=> int(1)
-// 		["name"]=> string(27) "名無しのプログラマ"
-// 		["content"]=> string(84) "ようこそ掲示板へ 次スレは>>950を踏んだ人が立ててください。"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[2]=> array(4) {
-// 		["id"]=> int(2)
-// 		["name"]=> string(33) "脆弱性を突くプログラマ"
-// 		["content"]=> string(45) "太字 / 斜め / 下線"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[3]=> array(4) {
-// 		["id"]=> int(3)
-// 		["name"]=> "tester"
-// 		["content"]=> string(13) "test message!"
-// 		["reply"]=> array(3) {
-// 			[4]=> array(4) {
-// 				["id"]=> int(4)
-// 				["name"]=> "tester"
-// 				["content"]=> string(23) "reply message to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 			[5]=> array(4) {
-// 				["id"]=> int(5)
-// 				["name"]=> "tester"
-// 				["content"]=> string(24) "reply message2 to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 			[6]=> array(4) {
-// 				["id"]=> int(6)
-// 				["name"]=> "tester"
-// 				["content"]=> string(24) "reply message3 to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 		}
-// 	}
-// 	[7]=> array(4) {
-// 		["id"]=> int(7)
-// 		["name"]=> "tester"
-// 		["content"]=> string(8) "test mes"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[8]=> array(4) {
-// 		["id"]=> int(8)
-// 		["name"]=> string(6)"tester"
-// 		["content"]=> string(9) "test mes"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// }
-
-// array(
-// 	["id"]=> 3,
-// 	["name"]=> "tester",
-// 	["content"]=> "test message!",
-// 	["reply"]=> array(
-// 		[4]=> array(
-// 			["id"]=> 4,
-// 			["name"]=> "tester",
-// 			["content"]=> "reply message to tester",
-// 			["reply"]=> array(
-// 			)
-// 		),
-// 		[5]=> array(
-// 			["id"]=> 5,
-// 			["name"]=> "tester",
-// 			["content"]=> "reply message2 to tester",
-// 			["reply"]=> array(
-// 			)
-// 		),
-// 		[6]=> array(
-// 			["id"]=> 6,
-// 			["name"]=> "tester",
-// 			["content"]=> "reply message3 to tester",
-// 			["reply"]=> array(
-// 				[9]=> array(
-// 					["id"]=> 9,
-// 					["name"] => "tester",
-// 					["content"]=> "reply message to 6",
-// 					["reply"]=> array(
-// 					)
-// 				)
-// 			)
-// 		)
-// 	)
-// );
-
-
-// array(4) { ["id"]=> int(3) ["name"]=> string(6) "tester" ["content"]=> string(13) "test message!" ["reply"]=> array(3) { [4]=> array(4) { ["id"]=> int(4) ["name"]=> string(6) "tester" ["content"]=> string(23) "reply message to tester" ["reply"]=> array(0) { } } [5]=> array(4) { ["id"]=> int(5) ["name"]=> string(6) "tester" ["content"]=> string(24) "reply message2 to tester" ["reply"]=> array(0) { } } [6]=> array(4) { ["id"]=> int(6) ["name"]=> string(6) "tester" ["content"]=> string(24) "reply message3 to tester" ["reply"]=> array(0) { } } } }
-
-// array(4) { ["id"]=> int(3) ["name"]=> string(6) "tester" ["content"]=> string(13) "test message!" ["reply"]=> array(3) { [4]=> array(4) { ["id"]=> int(4) ["name"]=> string(6) "tester" ["content"]=> string(23) "reply message to tester" ["reply"]=> array(0) { } } [5]=> array(4) { ["id"]=> int(5) ["name"]=> string(6) "tester" ["content"]=> string(24) "reply message2 to tester" ["reply"]=> array(0) { } } [6]=> array(4) { ["id"]=> int(6) ["name"]=> string(6) "tester" ["content"]=> string(24) "reply message3 to tester" ["reply"]=> array(1) { [9]=> array(4) { ["id"]=> int(9) ["name"]=> string(6) "tester" ["content"]=> string(19) "reply message to 6" ["reply"]=> array(0) { } } } } } }
-
-
-
-
-
-
-// array(8) {
-// 	[1]=> array(4) {
-// 		["id"]=> int(1)
-// 		["name"]=> string(27) "名無しのプログラマ"
-// 		["content"]=> string(84) "ようこそ掲示板へ 次スレは>>950を踏んだ人が立ててください。"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[2]=> array(4) {
-// 		["id"]=> int(2)
-// 		["name"]=> string(33) "脆弱性を突くプログラマ"
-// 		["content"]=> string(45) "太字 / 斜め / 下線"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[3]=> array(4) {
-// 		["id"]=> int(3)
-// 		["name"]=> string(6) "tester"
-// 		["content"]=> string(13) "test message!"
-// 		["reply"]=> array(3) {
-// 			[4]=> array(4) {
-// 				["id"]=> int(4)
-// 				["name"]=> string(6) "tester"
-// 				["content"]=> string(23) "reply message to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 			[5]=> array(4) {
-// 				["id"]=> int(5)
-// 				["name"]=> string(6) "tester"
-// 				["content"]=> string(24) "reply message2 to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 			[6]=> array(4) {
-// 				["id"]=> int(6)
-// 				["name"]=> string(6) "tester"
-// 				["content"]=> string(24) "reply message3 to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 		}
-// 	}
-// 	[7]=> array(4) {
-// 		["id"]=> int(7)
-// 		["name"]=> string(6) "tester"
-// 		["content"]=> string(8) "test mes"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[8]=> array(4) {
-// 		["id"]=> int(8)
-// 		["name"]=> string(6) "tester"
-// 		["content"]=> string(9) "test mes"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[0]=> array(4) {
-// 		["id"]=> int(3)
-// 		["name"]=> string(6) "tester"
-// 		["content"]=> string(13) "test message!"
-// 		["reply"]=> array(3) {
-// 			[4]=> array(4) {
-// 				["id"]=> int(4)
-// 				["name"]=> string(6) "tester"
-// 				["content"]=> string(23) "reply message to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 			[5]=> array(4) {
-// 				["id"]=> int(5)
-// 				["name"]=> string(6) "tester"
-// 				["content"]=> string(24) "reply message2 to tester"
-// 				["reply"]=> array(0) {
-// 				}
-// 			}
-// 			[6]=> array(4) {
-// 				["id"]=> int(6)
-// 				["name"]=> string(6) "tester"
-// 				["content"]=> string(24) "reply message3 to tester"
-// 				["reply"]=> array(1) {
-// 					[9]=> array(4) {
-// 						["id"]=> int(9)
-// 						["name"]=> string(6) "tester"
-// 						["content"]=> string(19) "reply message to 6"
-// 						["reply"]=> array(0) {
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// 	[10]=> array(4) {
-// 		["id"]=> int(10)
-// 		["name"]=> string(27) "名無しのプログラマ"
-// 		["content"]=> string(84) "ようこそ掲示板へ 次スレは>>950を踏んだ人が立ててください。"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// 	[11]=> array(4) {
-// 		["id"]=> int(11)
-// 		["name"]=> string(33) "脆弱性を突くプログラマ"
-// 		["content"]=> string(45) "太字 / 斜め / 下線"
-// 		["reply"]=> array(0) {
-// 		}
-// 	}
-// }
