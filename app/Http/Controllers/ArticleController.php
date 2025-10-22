@@ -69,36 +69,38 @@ class ArticleController extends Controller
 					"updated_at" => $article->updated_at
 				);
 			}else {		// reply_idが0ではない投稿は返信である
-				foreach($data as $replyTo) {
-					if($replyTo["id"] <= $article->reply_id) {		// ?
-						if($replyTo["id"] === $article->reply_id) {		// article["reply_id"]の数字がarticle["id"]と同じとき、そのidの投稿に対する返信である
-							// echo ("id:" . $replyTo["id"] . " <- id:" . $article->id . " push message!<br>");
-							$data[$article->reply_id]["reply"][$article->id] = array(
-								"id" => $article->id,
-								"name" => $article->name,
-								"content" => $article->content,
-								"reply" => array(),
-								"created_at" => $article->created_at,
-								"updated_at" => $article->updated_at,
-							);
+				if(!empty($data[$article->reply_id])) {		// article["reply_id"]の数字がarticle["id"]と同じとき、そのidの投稿に対する返信である
+						$data[$article->reply_id]["reply"][$article->id] = array(
+						"id" => $article->id,
+						"name" => $article->name,
+						"content" => $article->content,
+						"reply" => array(),
+						"created_at" => $article->created_at,
+						"updated_at" => $article->updated_at,
+					);
+					return $data;
+				}else {		// article["reply_id"]の数字がarticle["id"]と同じではないとき、その投稿に対する返信ではない 又は その投稿への返信に対する返信である
+					// echo($article["id"]."<br>");
+					// echo("<br><br>");
+					foreach($data as $replyTo) {
+						echo(count($data)."　".$replyTo["id"]."　　　".$article["id"]."<br>");
+						if(!empty($replyTo["reply"])) {		// その投稿に対する返信があるかどうか、なければその投稿への返信に対する返信ではない
+							// echo($replyTo["id"]." <- ".$article["id"]."<br>");
+
+							// echo(count($data)."<br><br>");
+							/*
+								その投稿への返信に対する返信であれば、その投稿への返信に対する返信を追加したものに置き換える
+								その投稿への返信に対する返信でなければ、何も変わらない（同じものと置き換える）
+							*/
+							// $temp = reply_push($replyTo["reply"], $article);
+							// $data_id_temp = array_search($replyTo, $data, true);
+
+							// $replyTo["reply"] = $temp;
+							// $data[$data_id_temp] = $replyTo;
+							// echo("<br>");
+
 							return $data;
-						}else {		// article["reply_id"]の数字がarticle["id"]と同じではないとき、その投稿に対する返信ではない 又は その投稿への返信に対する返信である
-							if(!empty($replyTo["reply"])) {		// その投稿への返信があるかどうか
-								/*
-									その投稿への返信に対する返信であれば、その投稿への返信に対する返信を追加したものに置き換える
-									その投稿への返信に対する返信でなければ、何も変わらない（同じものと置き換える）
-								*/
-								$temp = reply_push($replyTo["reply"], $article);
-
-								$data_id_temp = array_search($replyTo, $data, true);
-								$replyTo["reply"] = $temp;
-								$data[$data_id_temp] = $replyTo;
-
-								return $data;
-							}
 						}
-					} else if ($replyTo["id"] > $article["reply_id"]) {
-						break;
 					}
 				}
 			}
@@ -109,22 +111,18 @@ class ArticleController extends Controller
 		$articles = Article::all();
 		$data = array();
 		foreach($articles as $article) {
+			echo("aaaa<br>");
 			$data = reply_push($data, $article);
+			echo("<br><br><br>");
 		}
-
-		// foreach($data as $tmp) {
-		// 	var_dump($tmp);
-		// 	echo ("<br><br>");
-		// }
-		// echo ("<br><br>");
-		// echo ("<br><br>");
-
+		// echo("<br>");
+		// var_dump($data);
 		return view('bbs.index', ['articles'=>$data]);
 	}
 
 	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
-		$form += array('reply_id'=>10);	//　reply_idにどの投稿に対する返信なのかを入力する
+		$form += array('reply_id'=>21);	//　reply_idにどの投稿に対する返信なのかを入力する
 
 		$article = new Article;
 		$result = $article->fill($form)->save();
