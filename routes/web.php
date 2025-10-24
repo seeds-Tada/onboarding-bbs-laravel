@@ -26,3 +26,6 @@ Route::post('/edit_complete/{article}', [ArticleController::class, 'edit_complet
 
 Route::post('/delete_confirm/{article}', [ArticleController::class, 'delete_confirm']);
 Route::post('/delete_complete/{article}', [ArticleController::class, 'delete_complete']);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
