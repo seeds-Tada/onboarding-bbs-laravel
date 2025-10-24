@@ -110,7 +110,7 @@ class ArticleController extends Controller
 
 	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
-		$form += array('reply_id'=>21);	//　reply_idにどの投稿に対する返信なのかを入力する
+		$form += array('reply_id'=>0);
 
 		$article = new Article;
 		$result = $article->fill($form)->save();
@@ -123,6 +123,35 @@ class ArticleController extends Controller
 
 
 		return view('bbs.post_complete');
+	}
+
+	public function reply_post(Request $request) {
+		$form = $request->only(['id']);
+		if(empty($form['id'])) {
+			return redirect('/');
+		}
+
+		$form = $request->only(['reply-name-'.$form['id'], 'reply-content-'.$form['id'], 'id']);
+		if(empty($form['reply-name-'.$form['id']]) || empty($form['reply-content-'.$form['id']])) {
+			return redirect('/');
+		}
+
+		$form = array(
+			"name" => $form['reply-name-'.$form['id']],
+			"content" => $form['reply-content-'.$form['id']],
+			"reply_id" => $form['id']
+		);
+
+		$article = new Article;
+		$result = $article->fill($form)->save();
+
+		if($result) {
+			session()->flash("flash.success", "登録が完了しました。");
+		}else {
+			session()->flash("flash.error", "登録が失敗しました。");
+		}
+
+		return redirect('/');
 	}
 
 	public function editing(Request $request, Article $article) {

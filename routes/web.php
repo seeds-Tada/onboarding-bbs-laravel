@@ -18,6 +18,8 @@ Route::get('/', [ArticleController::class, 'index']);
 
 Route::post('/post_complete', [ArticleController::class, 'post_complete']);
 
+Route::post('/reply_post', [ArticleController::class, 'reply_post']);
+
 Route::post('/editing/{article}', [ArticleController::class, 'editing']);
 Route::get('/editing/{article}', [ArticleController::class, 'editing']);
 Route::post('/edit_complete/{article}', [ArticleController::class, 'edit_complete']);

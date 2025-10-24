@@ -52,6 +52,17 @@ body {
 	text-align: left;
 }
 
+.reply-post-form {
+	text-align: center;
+}
+.reply-post-table {
+	margin: 0 auto;
+}
+.reply-post-switch{
+	font-weight: normal;
+	font-size: 0.8em;
+}
+
 .error-mes {
 	display: flex;
 	align-items: center;
