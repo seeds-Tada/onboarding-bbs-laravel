@@ -1,6 +1,6 @@
 <details>
 	<summary>
-		<strong class="index-reply-switch">{{$to['id']}}への返信を表示する</strong>
+		<strong class="index-reply-switch">{{$to['id']}}への返信を表示する {{count($to['reply'])}}件</strong>
 	</summary>
 	<div>
 		@foreach ($articles as $article)
