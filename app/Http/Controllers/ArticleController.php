@@ -96,7 +96,6 @@ class ArticleController extends Controller
 					return $data;
 				}
 			}
-
 			return $data;
 		}
 
@@ -121,8 +120,7 @@ class ArticleController extends Controller
 			session()->flash("flash.error", "登録が失敗しました。");
 		}
 
-
-		return view('bbs.post_complete');
+		return redirect('/');
 	}
 
 	public function reply_post(Request $request) {
@@ -187,7 +185,6 @@ class ArticleController extends Controller
 		}else {
 			session()->flash("flash.error", "削除が失敗しました。");
 		}
-
 
 		return view('bbs.delete_complete');
 	}
