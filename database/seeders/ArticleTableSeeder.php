@@ -15,6 +15,7 @@ class ArticleTableSeeder extends Seeder
 	{
 		$article = new Article;
 		$param = [
+			'user_id'=>2,
 			'name'=>"名無しのプログラマ",
 			'content'=>"ようこそ掲示板へ\n次スレは>>950を踏んだ人が立ててください。",
 			'reply_id'=>0,
@@ -22,6 +23,7 @@ class ArticleTableSeeder extends Seeder
 		$article->fill($param)->save();
 
 		$param = [
+			'user_id'=>2,
 			'name'=>"脆弱性を突くプログラマ",
 			'content'=>"<b>太字</b> / <i>斜め</i> / <u>下線</u>",
 			'reply_id'=>0,

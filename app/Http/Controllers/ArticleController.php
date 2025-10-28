@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ArticlePostRequest;
 
 class ArticleController extends Controller
@@ -62,6 +63,7 @@ class ArticleController extends Controller
 			if($article->reply_id === 0) {		// reply_idが0である投稿は返信ではない
 				$data[$article->id] = array(
 					"id" => $article->id,
+					"user_id" => $article->user_id,
 					"name" => $article->name,
 					"content" => $article->content,
 					"reply" => array(),
@@ -72,6 +74,7 @@ class ArticleController extends Controller
 				if(!empty($data[$article->reply_id])) {		// article["reply_id"]の数字がarticle["id"]と同じとき、そのidの投稿に対する返信である
 						$data[$article->reply_id]["reply"][$article->id] = array(
 						"id" => $article->id,
+						"user_id" => $article->user_id,
 						"name" => $article->name,
 						"content" => $article->content,
 						"reply" => array(),
@@ -104,7 +107,11 @@ class ArticleController extends Controller
 		foreach($articles as $article) {
 			$data = reply_push($data, $article);
 		}
-		return view('bbs.index', ['articles'=>$data]);
+
+		$user_id = Auth::user()->id;	//ログイン状態を確認する
+		// $user_id = null;
+		var_dump($user_id);
+		return view('bbs.index', ['articles'=>$data, 'user_id'=>$user_id]);
 	}
 
 	public function post_complete(ArticlePostRequest $request) {
@@ -153,6 +160,7 @@ class ArticleController extends Controller
 	}
 
 	public function editing(Request $request, Article $article) {
+		var_dump(Auth::user()->id);
 		return view('bbs.editing', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
@@ -187,5 +195,21 @@ class ArticleController extends Controller
 		}
 
 		return view('bbs.delete_complete');
+	}
+
+	public function getLogin(Request $request){
+		return view('bbs.login');
+	}
+
+	public function authLogin(Request $request) {
+		$credentials = $request->only('email', 'password');
+
+		if(Auth::attempt($credentials, $remember = true)) {
+			session()->flash("flash.success", "ログインに成功しました。");
+			return redirect('/');
+		}else {
+			session()->flash("flash.error", "ログインに失敗しました。");
+			return view('bbs.login');
+		}
 	}
 }

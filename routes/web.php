@@ -16,16 +16,16 @@ use App\Http\Controllers\ArticleController;
 
 Route::get('/', [ArticleController::class, 'index']);
 
-Route::post('/post_complete', [ArticleController::class, 'post_complete']);
+Route::post('/post_complete', [ArticleController::class, 'post_complete'])->middleware('auth');
 
-Route::post('/reply_post', [ArticleController::class, 'reply_post']);
+Route::post('/reply_post', [ArticleController::class, 'reply_post'])->middleware('auth');
 
-Route::post('/editing/{article}', [ArticleController::class, 'editing']);
-Route::get('/editing/{article}', [ArticleController::class, 'editing']);
-Route::post('/edit_complete/{article}', [ArticleController::class, 'edit_complete']);
+Route::post('/editing/{article}', [ArticleController::class, 'editing'])->middleware('auth');
+Route::get('/editing/{article}', [ArticleController::class, 'editing'])->middleware('auth');
+Route::post('/edit_complete/{article}', [ArticleController::class, 'edit_complete'])->middleware('auth');
 
-Route::post('/delete_confirm/{article}', [ArticleController::class, 'delete_confirm']);
-Route::post('/delete_complete/{article}', [ArticleController::class, 'delete_complete']);
+Route::post('/delete_confirm/{article}', [ArticleController::class, 'delete_confirm'])->middleware('auth');
+Route::post('/delete_complete/{article}', [ArticleController::class, 'delete_complete'])->middleware('auth');
+
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
