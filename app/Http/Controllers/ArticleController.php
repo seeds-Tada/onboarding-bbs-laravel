@@ -216,7 +216,7 @@ class ArticleController extends Controller
 			session()->flash("flash.error", "編集が失敗しました。");
 		}
 
-		return view('bbs.edit_complete');
+		return redirect('/');
 	}
 
 	public function delete_confirm(Request $request, Article $article) {
@@ -252,7 +252,7 @@ class ArticleController extends Controller
 			session()->flash("flash.error", "削除が失敗しました。");
 		}
 
-		return view('bbs.delete_complete');
+		return redirect('/');
 	}
 
 	// 管理者
