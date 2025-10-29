@@ -108,15 +108,26 @@ class ArticleController extends Controller
 			$data = reply_push($data, $article);
 		}
 
-		$user_id = Auth::user()->id;	//ログイン状態を確認する
-		// $user_id = null;
-		var_dump($user_id);
+		//ログイン状態を確認する
+		if(Auth::user()) {		// ログインしているユーザー
+			$user_id = Auth::user()->id;
+		}else {					// ログインしていないユーザー
+			$user_id = null;
+		}
+
 		return view('bbs.index', ['articles'=>$data, 'user_id'=>$user_id]);
 	}
 
 	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
+
+		//ログイン状態を確認する
+		if(Auth::user()) {		// ログインしているユーザー
+			$form += array('user_id'=>Auth::user()->id);
+		}else {					// ログインしていないユーザー
+			return redirect('/');
+		}
 
 		$article = new Article;
 		$result = $article->fill($form)->save();
@@ -147,6 +158,13 @@ class ArticleController extends Controller
 			"reply_id" => $form['id']
 		);
 
+		//ログイン状態を確認する
+		if(Auth::user()) {		// ログインしているユーザー
+			$form += array('user_id'=>Auth::user()->id);
+		}else {					// ログインしていないユーザー
+			return redirect('/');
+		}
+
 		$article = new Article;
 		$result = $article->fill($form)->save();
 
@@ -160,12 +178,31 @@ class ArticleController extends Controller
 	}
 
 	public function editing(Request $request, Article $article) {
-		var_dump(Auth::user()->id);
+		//ログイン状態を確認する
+		if(Auth::user()) {						// ログインしているユーザー
+			$user_id += array('user_id'=>Auth::user()->id);
+			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+				return redirect('/');
+			}
+		}else {									// ログインしていないユーザー
+			return redirect('/');
+		}
+
 		return view('bbs.editing', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
 	public function edit_complete(ArticlePostRequest $request, Article $article) {
 		$form = $request->only(['name', 'content']);
+
+		//ログイン状態を確認する
+		if(Auth::user()) {						// ログインしているユーザー
+			$user_id += array('user_id'=>Auth::user()->id);
+			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+				return redirect('/');
+			}
+		}else {									// ログインしていないユーザー
+			return redirect('/');
+		}
 
 		$article->name = $form['name'];
 		$article->content = $form['content'];
@@ -182,10 +219,30 @@ class ArticleController extends Controller
 	}
 
 	public function delete_confirm(Request $request, Article $article) {
+		//ログイン状態を確認する
+		if(Auth::user()) {						// ログインしているユーザー
+			$user_id += array('user_id'=>Auth::user()->id);
+			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+				return redirect('/');
+			}
+		}else {									// ログインしていないユーザー
+			return redirect('/');
+		}
+
 		return view('bbs.delete_confirm', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
 	public function delete_complete(Request $request, Article $article) {
+		//ログイン状態を確認する
+		if(Auth::user()) {						// ログインしているユーザー
+			$user_id += array('user_id'=>Auth::user()->id);
+			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+				return redirect('/');
+			}
+		}else {									// ログインしていないユーザー
+			return redirect('/');
+		}
+
 		$result = $article->delete();
 
 		if($result) {
@@ -195,21 +252,5 @@ class ArticleController extends Controller
 		}
 
 		return view('bbs.delete_complete');
-	}
-
-	public function getLogin(Request $request){
-		return view('bbs.login');
-	}
-
-	public function authLogin(Request $request) {
-		$credentials = $request->only('email', 'password');
-
-		if(Auth::attempt($credentials, $remember = true)) {
-			session()->flash("flash.success", "ログインに成功しました。");
-			return redirect('/');
-		}else {
-			session()->flash("flash.error", "ログインに失敗しました。");
-			return view('bbs.login');
-		}
 	}
 }

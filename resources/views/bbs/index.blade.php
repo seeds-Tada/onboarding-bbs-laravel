@@ -24,8 +24,8 @@
 			<div class="bbs-message-content">
 				<pre>{{ $article['content'] }}</pre>
 			</div>
-			<div class="bbs-message-button">
-				@if( $article['user_id'] === $user_id )
+			@if( $article['user_id'] === $user_id )
+				<div class="bbs-message-button">
 					<form action="{{ url('/editing/'.$article['id']) }}" method="post">
 						@csrf
 						<input type="hidden" name="id" value="{{ $article['id'] }}">
@@ -37,8 +37,8 @@
 						<input type="hidden" name="id" value="{{ $article['id'] }}">
 						<button type="submit">削除</button>
 					</form>
-				@endif
-			</div>
+				</div>
+			@endif
 			<details>
 				<summary>
 					<strong class="reply-post-switch">返信する</strong>
