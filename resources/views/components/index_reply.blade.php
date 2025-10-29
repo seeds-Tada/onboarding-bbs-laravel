@@ -12,19 +12,21 @@
 				<div class="bbs-message-content">
 					<pre><a class="index-reply-to" href="#index-message-{{$to['id']}}">>>{{$to['id']}}</a>{{ $article['content'] }}</pre>
 				</div>
-				<div class="bbs-message-button">
-					<form action="{{ url('/editing/'.$article['id']) }}" method="post">
-						@csrf
-						<input type="hidden" name="id" value="{{ $article['id'] }}">
-						<button type="submit">編集</button>
-					</form>
-					&nbsp;
-					<form action="{{ url('/delete_confirm/'.$article['id']) }}" method="post">
-						@csrf
-						<input type="hidden" name="id" value="{{ $article['id'] }}">
-						<button type="submit">削除</button>
-					</form>
-				</div>
+				@if( $article['user_id'] === $user_id )
+					<div class="bbs-message-button">
+						<form action="{{ url('/editing/'.$article['id']) }}" method="post">
+							@csrf
+							<input type="hidden" name="id" value="{{ $article['id'] }}">
+							<button type="submit">編集</button>
+						</form>
+						&nbsp;
+						<form action="{{ url('/delete_confirm/'.$article['id']) }}" method="post">
+							@csrf
+							<input type="hidden" name="id" value="{{ $article['id'] }}">
+							<button type="submit">削除</button>
+						</form>
+					</div>
+				@endif
 				<details>
 					<summary>
 						<strong class="reply-post-switch">返信する</strong>
@@ -57,7 +59,8 @@
 							"components/index_reply",
 							[
 								"articles" => $article["reply"],
-								"to" => $article
+								"to" => $article,
+								"user_id" => $user_id
 							]
 						)
 					</div>

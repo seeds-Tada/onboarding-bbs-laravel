@@ -71,7 +71,8 @@
 						"components/index_reply",
 						[
 							"articles" => $article["reply"],
-							"to" => $article
+							"to" => $article,
+							"user_id" => $user_id
 						]
 					)
 				</div>
