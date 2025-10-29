@@ -180,8 +180,8 @@ class ArticleController extends Controller
 	public function editing(Request $request, Article $article) {
 		//ログイン状態を確認する
 		if(Auth::user()) {						// ログインしているユーザー
-			$user_id += array('user_id'=>Auth::user()->id);
-			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+			$user_id = Auth::user()->id;
+			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
 				return redirect('/');
 			}
 		}else {									// ログインしていないユーザー
@@ -196,8 +196,8 @@ class ArticleController extends Controller
 
 		//ログイン状態を確認する
 		if(Auth::user()) {						// ログインしているユーザー
-			$user_id += array('user_id'=>Auth::user()->id);
-			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+			$user_id = Auth::user()->id;
+			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
 				return redirect('/');
 			}
 		}else {									// ログインしていないユーザー
@@ -221,8 +221,8 @@ class ArticleController extends Controller
 	public function delete_confirm(Request $request, Article $article) {
 		//ログイン状態を確認する
 		if(Auth::user()) {						// ログインしているユーザー
-			$user_id += array('user_id'=>Auth::user()->id);
-			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+			$user_id = Auth::user()->id;
+			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
 				return redirect('/');
 			}
 		}else {									// ログインしていないユーザー
@@ -235,8 +235,8 @@ class ArticleController extends Controller
 	public function delete_complete(Request $request, Article $article) {
 		//ログイン状態を確認する
 		if(Auth::user()) {						// ログインしているユーザー
-			$user_id += array('user_id'=>Auth::user()->id);
-			if($article['id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
+			$user_id = Auth::user()->id;
+			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
 				return redirect('/');
 			}
 		}else {									// ログインしていないユーザー
