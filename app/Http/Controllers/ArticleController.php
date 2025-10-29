@@ -394,18 +394,18 @@ class ArticleController extends Controller
 			session()->flash("flash.error", "登録が失敗しました。");
 		}
 
-		return redirect('/');
+		return redirect('/admin/index');
 	}
 
 	public function admin_reply_post(Request $request) {
 		$form = $request->only(['id']);
 		if(empty($form['id'])) {
-			return redirect('/');
+			return redirect('/admin/index');
 		}
 
 		$form = $request->only(['reply-name-'.$form['id'], 'reply-content-'.$form['id'], 'id']);
 		if(empty($form['reply-name-'.$form['id']]) || empty($form['reply-content-'.$form['id']])) {
-			return redirect('/');
+			return redirect('/admin/index');
 		}
 
 		$form = array(
@@ -433,7 +433,7 @@ class ArticleController extends Controller
 			session()->flash("flash.error", "登録が失敗しました。");
 		}
 
-		return redirect('/');
+		return redirect('/admin/index');
 	}
 
 	public function admin_editing(Request $request, Article $article) {
@@ -473,7 +473,7 @@ class ArticleController extends Controller
 			session()->flash("flash.error", "編集が失敗しました。");
 		}
 
-		return view('bbs_admin.edit_complete');
+		return redirect('/admin/index');
 	}
 
 	public function admin_delete_confirm(Request $request, Article $article) {
@@ -509,6 +509,6 @@ class ArticleController extends Controller
 			session()->flash("flash.error", "削除が失敗しました。");
 		}
 
-		return view('bbs_admin.delete_complete');
+		return redirect('/admin/index');
 	}
 }
