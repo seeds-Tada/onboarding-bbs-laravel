@@ -1,0 +1,32 @@
+@extends('layouts.bbs')
+
+@section('title', '管理者削除確認')
+
+@section('header')
+管理者削除確認
+@endsection
+
+@section('content')
+<div>下記の内容を削除しますがよろしいですか?</div>
+<table class="post-table">
+	<tbody>
+		<tr>
+			<th>名前</th>
+			<td><span>{{ $data->name }}</span></td>
+		</tr>
+		<tr>
+			<th>投稿内容</th>
+			<td><span><pre>{{ $data->content }}</pre></span></td>
+		</tr>
+	</tbody>
+</table>
+<form action="{{ url('/admin/delete_complete/'.$id) }}" method="post">
+	@csrf
+	<input name="id" id="id" value="{{$id}}" readonly hidden>
+	<button type="submit">削除</button>
+</form>
+@endsection
+
+@section('footer')
+(  ・ω・)ノ⌒■
+@endsection
