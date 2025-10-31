@@ -19,7 +19,6 @@ class UsersTableSeeder extends Seeder
 			'name'=>'admin',
 			'email'=>'admin@example.net',
 			'password'=>Hash::make("password"),
-			'role'=>'admin',
 		];
 		$user->fill($param)->save();
 
@@ -28,7 +27,6 @@ class UsersTableSeeder extends Seeder
 			'name'=>'tester',
 			'email'=>'tester@example.net',
 			'password'=>Hash::make("password"),
-			'role'=>'user',
 		];
 		$user->fill($param)->save();
 	}
