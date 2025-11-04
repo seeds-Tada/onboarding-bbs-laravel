@@ -203,4 +203,20 @@ class AdminController extends Controller
 
 		return redirect('/admin/index');
 	}
+
+	public function delete_confirm(Request $request, Article $article) {
+		return view('bbs_admin.delete_confirm', ['data'=>$article, 'id'=>$article['id']]);
+	}
+
+	public function delete_complete(Request $request, Article $article) {
+		$result = $article->delete();
+
+		if($result) {
+			session()->flash("flash.success", "削除が完了しました。");
+		}else {
+			session()->flash("flash.error", "削除が失敗しました。");
+		}
+
+		return redirect('/admin/index');
+	}
 }
