@@ -1,4 +1,4 @@
-@extends('layouts.bbs')
+@extends('layouts.bbs_admin')
 
 @section('title', '管理者オンボーディング掲示板')
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,15 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+
+Route::prefix('admin')->name('admin.')->group(function() {
+    Route::get('login', [AdminController::class, 'login_get']);
+    Route::post('login', [AdminController::class, 'login_post']);
+
+    Route::middleware(['auth.admin'])->group(function() {
+        Route::get('index', [AdminController::class, 'index']);
+    });
+});
 // Route::get('/admin/login', [ArticleController::class, 'admin_login']);
 
 // Route::get('/admin/index', [ArticleController::class, 'admin_index']);
