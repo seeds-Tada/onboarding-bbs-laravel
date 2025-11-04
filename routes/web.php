@@ -34,17 +34,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::prefix('admin')->name('admin.')->group(function() {
-    Route::get('login', [AdminController::class, 'login_get']);
-    Route::post('login', [AdminController::class, 'login_post']);
+	Route::get('login', [AdminController::class, 'login_get']);
+	Route::post('login', [AdminController::class, 'login_post']);
 
-    Route::middleware(['auth.admin'])->group(function() {
-        Route::post('logout', [AdminController::class, 'logout']);
+	Route::middleware(['auth.admin'])->group(function() {
+		Route::post('logout', [AdminController::class, 'logout']);
 
-        Route::get('index', [AdminController::class, 'index']);
-        
-        Route::post('post', [AdminController::class, 'post']);
-        Route::post('reply_post', [AdminController::class, 'reply_post']);
-    });
+		Route::get('index', [AdminController::class, 'index']);
+
+		Route::post('post', [AdminController::class, 'post']);
+		Route::post('reply_post', [AdminController::class, 'reply_post']);
+
+		Route::post('editing/{article}', [AdminController::class, 'editing']);
+		Route::get('editing/{article}', [AdminController::class, 'editing']);
+		Route::post('edit_complete/{article}', [AdminController::class, 'edit_complete']);
+	});
 });
 // Route::get('/admin/login', [ArticleController::class, 'admin_login']);
 

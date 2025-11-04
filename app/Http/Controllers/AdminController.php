@@ -183,4 +183,24 @@ class AdminController extends Controller
 
 		return redirect('/admin/index');
     }
+
+	public function editing(Request $request, Article $article) {
+		return view('bbs_admin.editing', ['data'=>$article, 'id'=>$article['id']]);
+	}
+
+	public function edit_complete(ArticlePostRequest $request, Article $article) {
+		$form = $request->only(['name', 'content']);
+
+		$article->name = $form['name'];
+		$article->content = $form['content'];
+		$result = $article->save();
+
+		if($result) {
+			session()->flash("flash.success", "編集が完了しました。");
+		}else {
+			session()->flash("flash.error", "編集が失敗しました。");
+		}
+
+		return redirect('/admin/index');
+	}
 }
