@@ -142,4 +142,18 @@ class AdminController extends Controller
 
 		return view('bbs_admin.index', ['articles'=>$data]);
     }
+
+    public function logout(Request $request) {
+		//ユーザーを確認する
+		if(Auth::guard('admin')->user()) {						// ログインしているユーザー
+			if(Auth::guard('admin')->check() !== true) {
+				return redirect('/admin/login');
+			}
+		}else {									// ログインしていないユーザー
+			return redirect('/admin/login');
+		}
+
+        Auth::guard('admin')->logout();
+        return redirect('/admin/login');
+    }
 }

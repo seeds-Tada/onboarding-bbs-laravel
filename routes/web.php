@@ -39,6 +39,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     Route::middleware(['auth.admin'])->group(function() {
         Route::get('index', [AdminController::class, 'index']);
+
+        Route::post('logout', [AdminController::class, 'logout']);
     });
 });
 // Route::get('/admin/login', [ArticleController::class, 'admin_login']);
