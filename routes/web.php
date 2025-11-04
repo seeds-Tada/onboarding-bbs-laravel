@@ -41,7 +41,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::post('logout', [AdminController::class, 'logout']);
 
         Route::get('index', [AdminController::class, 'index']);
+        
         Route::post('post', [AdminController::class, 'post']);
+        Route::post('reply_post', [AdminController::class, 'reply_post']);
     });
 });
 // Route::get('/admin/login', [ArticleController::class, 'admin_login']);

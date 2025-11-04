@@ -20,43 +20,21 @@ class AdminController extends Controller
             'password' => ['required'],
         ]);
 
-        echo("waaaa!!!!");
-
         if(Auth::guard('admin')->attempt($credentials, $request->boolean('rememder'))) {
             $request->session()->regenerate();
             return redirect()->intended(url('/admin/index'));
         }
-
-        echo("not login.");
 
         return view('bbs_admin.login');
         // return redirect('/admin/login');
     }
 
     public function logout(Request $request) {
-		//ユーザーを確認する
-		if(Auth::guard('admin')->user()) {						// ログインしているユーザー
-			if(Auth::guard('admin')->check() !== true) {
-				return redirect('/admin/login');
-			}
-		}else {									// ログインしていないユーザー
-			return redirect('/admin/login');
-		}
-
         Auth::guard('admin')->logout();
         return redirect('/admin/login');
     }
 
     public function index(Request $request) {
-		//ユーザーを確認する
-		if(Auth::guard('admin')->user()) {						// ログインしているユーザー
-			if(Auth::guard('admin')->check() !== true) {
-				return redirect('/admin/login');
-			}
-		}else {									// ログインしていないユーザー
-			return redirect('/admin/login');
-		}
-
 		function reply_push($data, $article) {
 			/*
 				木構造を配列で表現する
@@ -161,6 +139,37 @@ class AdminController extends Controller
     public function post(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
+        $form += array('user_id'=>1);       // 仮
+
+		$article = new Article;
+		$result = $article->fill($form)->save();
+
+		if($result) {
+			session()->flash("flash.success", "登録が完了しました。");
+		}else {
+			session()->flash("flash.error", "登録が失敗しました。");
+		}
+
+		return redirect('/admin/index');
+    }
+
+    public function reply_post(Request $request) {
+        $id = $request['id'];
+        if(empty($id)) {
+            return redirect('/admin/index');
+        }
+
+        $replyName = $request['reply-name-'.$id];
+        $replyContent = $request['reply-content-'.$id];
+		if(empty($replyName) || empty($replyContent)) {
+			return redirect('/admin/index');
+		}
+
+		$form = array(
+			"name" => $replyName,
+			"content" => $replyContent,
+			"reply_id" => $id
+		);
         $form += array('user_id'=>1);       // 仮
 
 		$article = new Article;
