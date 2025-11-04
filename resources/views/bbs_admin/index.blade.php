@@ -78,7 +78,7 @@
 		<br />
 	@endforeach
 </div>
-<form action="{{ url('/admin/post_complete') }}" method="post">
+<form action="{{ url('/admin/post') }}" method="post">
 	@csrf
 	<table class="post-table">
 		<thead>

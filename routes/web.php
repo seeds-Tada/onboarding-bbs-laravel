@@ -38,9 +38,10 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('login', [AdminController::class, 'login_post']);
 
     Route::middleware(['auth.admin'])->group(function() {
-        Route::get('index', [AdminController::class, 'index']);
-
         Route::post('logout', [AdminController::class, 'logout']);
+
+        Route::get('index', [AdminController::class, 'index']);
+        Route::post('post', [AdminController::class, 'post']);
     });
 });
 // Route::get('/admin/login', [ArticleController::class, 'admin_login']);
