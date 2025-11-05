@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticlePostRequest;
 use App\Models\Admin;
+use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -218,5 +219,122 @@ class AdminController extends Controller
 		}
 
 		return redirect('/admin/index');
+	}
+
+	public function users(Request $request) {
+		$admins = Admin::all();
+		$adminsData = array();
+		foreach($admins as $admin) {
+			array_push(
+				$adminsData,
+				array(
+					"id" => $admin->id,
+					"name" => $admin->name,
+					"email" => $admin->email,
+					"created_at" => $admin->created_at,
+					"updated_at" => $admin->updated_at,
+				)
+			);
+		}
+
+		$users = User::all();
+		$usersData = array();
+		foreach($users as $user) {
+			array_push(
+				$usersData,
+				array(
+					"id" => $user->id,
+					"name" => $user->name,
+					"email" => $user->email,
+					"created_at" => $user->created_at,
+					"updated_at" => $user->updated_at,
+				)
+			);
+		}
+
+		// var_dump($usersData);
+		// echo("<br><br><br>");
+		// var_dump($adminsData);
+		// return "";
+		return view('bbs_admin.users', ['adminsData'=>$adminsData, 'usersData'=>$usersData]);
+	}
+
+	public function admin_create(Request $request) {
+		$form = $request->only(['name', 'email', 'password']);
+		var_dump($form);
+		// return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'admin']);
+	}
+
+	public function admin_edit(Request $request, Admin $article) {
+		var_dump($article->name);
+		return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'admin']);
+	}
+
+	public function admin_edit_complete(Request $request, Admin $article) {
+		$form = $request->only(['name', 'email']);
+
+		$article->name = $form['name'];
+		$article->email = $form['email'];
+		$result = $article->save();
+
+		if($result) {
+			session()->flash("flash.success", "管理者ユーザーの編集が完了しました。");
+		}else {
+			session()->flash("flash.error", "管理者ユーザーの編集が失敗しました。");
+		}
+
+		return redirect('/admin/users');
+	}
+
+	public function admin_delete_confirm(Request $request, Admin $article) {
+		return view('bbs_admin.user_delete_confirm', ['data'=>$article, 'id'=>$article['id'], 'role'=>'admin']);
+	}
+
+	public function admin_delete_complete(Request $request, Admin $article) {
+		// $result = $article->delete();
+
+		// if($result) {
+		// 	session()->flash("flash.success", "管理者ユーザーの削除が完了しました。");
+		// }else {
+		// 	session()->flash("flash.error", "管理者ユーザーの削除が失敗しました。");
+		// }
+
+		return redirect('/admin/users');
+	}
+
+	public function user_edit(Request $request, User $article) {
+		return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'user']);
+	}
+
+	public function user_edit_complete(Request $request, User $article) {
+		$form = $request->only(['name', 'email']);
+
+		$article->name = $form['name'];
+		$article->email = $form['email'];
+		$result = $article->save();
+
+		if($result) {
+			session()->flash("flash.success", "一般ユーザーの編集が完了しました。");
+		}else {
+			session()->flash("flash.error", "一般ユーザーの編集が失敗しました。");
+		}
+
+		return redirect('/admin/users');
+	}
+
+	public function user_delete_confirm(Request $request, User $article) {
+		return view('bbs_admin.user_delete_confirm', ['data'=>$article, 'id'=>$article['id'], 'role'=>'user']);
+	}
+
+	public function user_delete_complete(Request $request, User $article) {
+		$result = $article->delete();
+
+		if($result) {
+			session()->flash("flash.success", "一般ユーザーの削除が完了しました。");
+		}else {
+			session()->flash("flash.error", "一般ユーザーの削除が失敗しました。");
+		}
+
+		return redirect('/admin/users');
 	}
 }

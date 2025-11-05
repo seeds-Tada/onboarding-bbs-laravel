@@ -1,10 +1,6 @@
-@extends('layouts.bbs')
+@extends('layouts.bbs_admin')
 
 @section('title', '管理手投稿編集')
-
-@section('header')
-管理手投稿編集
-@endsection
 
 @section('content')
 <form action="{{ url('/admin/edit_complete/'.$id) }}" method="post">

@@ -2,10 +2,6 @@
 
 @section('title', '管理者オンボーディング掲示板')
 
-@section('header')
-管理者オンボーディング掲示板
-@endsection
-
 @section('content')
 <br>
 	@if( session("flash") )

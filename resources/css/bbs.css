@@ -126,3 +126,40 @@ body {
 button {
 	all: revert;
 }
+
+.users-area {
+	margin: 0 auto;
+	width: 90%;
+	border: 1px solid;
+	background-color: #e0e0e0;
+	border-radius: 5px;
+	padding: 5px;
+}
+.users {
+	margin: 0 auto;
+	border: 1px solid;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.users-table {
+	margin: 0 auto;
+	border: 1.5px solid #000;
+}
+.users-table th, .users-table td {
+	border: 1px solid #000;
+}
+.users-table th {
+	background-color: #dbdbff;
+}
+.users-table tr:nth-of-type(even) {
+	background-color: rgb(230 230 230);
+}
+
+.post-users-table {
+	margin: 0 auto;
+}
+.post-users-table input {
+	all: revert;
+}

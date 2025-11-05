@@ -1,10 +1,6 @@
-@extends('layouts.bbs')
+@extends('layouts.bbs_admin')
 
 @section('title', '管理者削除確認')
-
-@section('header')
-管理者削除確認
-@endsection
 
 @section('content')
 <div>下記の内容を削除しますがよろしいですか?</div>

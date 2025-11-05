@@ -2,10 +2,6 @@
 
 @section('title', '管理者ログインページ')
 
-@section('header')
-管理者ログインページ
-@endsection
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
