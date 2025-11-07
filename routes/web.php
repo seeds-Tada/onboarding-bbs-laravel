@@ -63,6 +63,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
 		Route::post('users/admin_delete_confirm/{article}', [AdminController::class, 'admin_delete_confirm']);
 		Route::post('users/admin_delete_complete/{article}', [AdminController::class, 'admin_delete_complete']);
 
+		Route::post('users/user_create', [AdminController::class, 'user_create']);
+
 		Route::post('users/user_edit/{article}', [AdminController::class, 'user_edit']);
 		Route::get('users/user_edit/{article}', [AdminController::class, 'user_edit']);
 		Route::post('users/user_edit_complete/{article}', [AdminController::class, 'user_edit_complete']);

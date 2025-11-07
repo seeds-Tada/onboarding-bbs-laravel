@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticlePostRequest;
+use App\Http\Requests\AdminCreateUserRequest;
+use App\Http\Requests\AdminCreateAdminRequest;
+use App\Http\Requests\AdminEditUserRequest;
+use App\Http\Requests\AdminLoginRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function login_get(Request $request) {
-        return view('bbs_admin.login');
-    }
+	public function login_get(Request $request) {
+		return view('bbs_admin.login');
+	}
 
     public function login_post(Request $request) {
         $credentials = $request->validate([
@@ -21,21 +26,21 @@ class AdminController extends Controller
             'password' => ['required'],
         ]);
 
-        if(Auth::guard('admin')->attempt($credentials, $request->boolean('rememder'))) {
-            $request->session()->regenerate();
-            return redirect()->intended(url('/admin/index'));
-        }
+		if(Auth::guard('admin')->attempt($credentials, $request->boolean('rememder'))) {
+			$request->session()->regenerate();
+			return redirect()->intended(url('/admin/index'));
+		}
 
-        return view('bbs_admin.login');
-        // return redirect('/admin/login');
-    }
+		return view('bbs_admin.login');
+		// return redirect('/admin/login');
+	}
 
-    public function logout(Request $request) {
-        Auth::guard('admin')->logout();
-        return redirect('/admin/login');
-    }
+	public function logout(Request $request) {
+		Auth::guard('admin')->logout();
+		return redirect('/admin/login');
+	}
 
-    public function index(Request $request) {
+	public function index(Request $request) {
 		function reply_push($data, $article) {
 			/*
 				木構造を配列で表現する
@@ -135,9 +140,9 @@ class AdminController extends Controller
 		}
 
 		return view('bbs_admin.index', ['articles'=>$data]);
-    }
+	}
 
-    public function post(ArticlePostRequest $request) {
+	public function post(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
         $form += array('user_id'=>1);       // 仮
@@ -152,16 +157,16 @@ class AdminController extends Controller
 		}
 
 		return redirect('/admin/index');
-    }
+	}
 
-    public function reply_post(Request $request) {
-        $id = $request['id'];
-        if(empty($id)) {
-            return redirect('/admin/index');
-        }
+	public function reply_post(Request $request) {
+		$id = $request['id'];
+		if(empty($id)) {
+			return redirect('/admin/index');
+		}
 
-        $replyName = $request['reply-name-'.$id];
-        $replyContent = $request['reply-content-'.$id];
+		$replyName = $request['reply-name-'.$id];
+		$replyContent = $request['reply-content-'.$id];
 		if(empty($replyName) || empty($replyContent)) {
 			return redirect('/admin/index');
 		}
@@ -183,7 +188,7 @@ class AdminController extends Controller
 		}
 
 		return redirect('/admin/index');
-    }
+	}
 
 	public function editing(Request $request, Article $article) {
 		return view('bbs_admin.editing', ['data'=>$article, 'id'=>$article['id']]);
@@ -252,21 +257,26 @@ class AdminController extends Controller
 			);
 		}
 
-		// var_dump($usersData);
-		// echo("<br><br><br>");
-		// var_dump($adminsData);
-		// return "";
 		return view('bbs_admin.users', ['adminsData'=>$adminsData, 'usersData'=>$usersData]);
 	}
 
-	public function admin_create(Request $request) {
+	public function admin_create(AdminCreateAdminRequest $request) {
 		$form = $request->only(['name', 'email', 'password']);
-		var_dump($form);
-		// return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'admin']);
+		$form['password'] = Hash::make($form['password']);
+
+		$admin = new Admin;
+		$result = $admin->fill($form)->save();
+
+		if($result) {
+			session()->flash("flash.success", "管理者アカウントの作成が完了しました。");
+		}else {
+			session()->flash("flash.error", "管理者アカウントの作成が失敗しました。");
+		}
+
+		return redirect('/admin/users');
 	}
 
 	public function admin_edit(Request $request, Admin $article) {
-		var_dump($article->name);
 		return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'admin']);
 	}
 
@@ -298,6 +308,22 @@ class AdminController extends Controller
 		// }else {
 		// 	session()->flash("flash.error", "管理者ユーザーの削除が失敗しました。");
 		// }
+
+		return redirect('/admin/users');
+	}
+
+	public function user_create(AdminCreateUserRequest $request) {
+		$form = $request->only(['name', 'email', 'password']);
+		$form['password'] = Hash::make($form['password']);
+
+		$user = new User;
+		$result = $user->fill($form)->save();
+
+		if($result) {
+			session()->flash("flash.success", "管理者アカウントの作成が完了しました。");
+		}else {
+			session()->flash("flash.error", "管理者アカウントの作成が失敗しました。");
+		}
 
 		return redirect('/admin/users');
 	}
