@@ -317,9 +317,9 @@ class AdminController extends Controller
 		$result = $user->fill($form)->save();
 
 		if($result) {
-			session()->flash("flash.success", "管理者アカウントの作成が完了しました。");
+			session()->flash("flash.success", "一般アカウントの作成が完了しました。");
 		}else {
-			session()->flash("flash.error", "管理者アカウントの作成が失敗しました。");
+			session()->flash("flash.error", "一般アカウントの作成が失敗しました。");
 		}
 
 		return redirect('/admin/users');

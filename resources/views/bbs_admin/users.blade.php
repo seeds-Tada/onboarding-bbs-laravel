@@ -39,6 +39,15 @@
 				</table>
 				<button type="submit">投稿</button>
 			</form>
+			@if (count($errors) > 0)
+				@if ($errors->first('admin_name') || $errors->first('admin_email') || $errors->first('password'))
+					<div class="error-mes">
+						@foreach ($errors->all() as $error)
+							<span>{{$error}}</span>
+						@endforeach
+					</div>
+				@endif
+			@endif
 		</div>
 		<div class="users-table-area">
 			<table class="users-table">
@@ -109,6 +118,15 @@
 				</table>
 				<button type="submit">投稿</button>
 			</form>
+			@if (count($errors) > 0)
+				@if ($errors->first('name') || $errors->first('email') || $errors->first('password'))
+					<div class="error-mes">
+						@foreach ($errors->all() as $error)
+							<span>{{$error}}</span>
+						@endforeach
+					</div>
+				@endif
+			@endif
 		</div>
 		<div class="users-table-area">
 			<table class="users-table">
@@ -152,14 +170,6 @@
 		</div>
 	</div>
 </div>
-@if (count($errors) > 0)
-	{{ var_dump($errors) }}
-	<div class="error-mes">
-		@foreach ($errors->all() as $error)
-			<span>{{$error}}</span>
-		@endforeach
-	</div>
-@endif
 @endsection
 
 @section('footer')
