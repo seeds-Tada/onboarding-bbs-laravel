@@ -194,15 +194,6 @@ class ArticleController extends Controller
 		return redirect('/');
 	}
 
-	public function delete_confirm(Request $request, Article $article) {
-		// ログインしているユーザーとは別のユーザーの投稿
-		if($article['user_id'] !== Auth::user()->id) {
-			return redirect('/');
-		}
-
-		return view('bbs.delete_confirm', ['data'=>$article, 'id'=>$article['id']]);
-	}
-
 	public function delete_complete(Request $request, Article $article) {
 		// ログインしているユーザーとは別のユーザーの投稿
 		if($article['user_id'] !== Auth::user()->id) {

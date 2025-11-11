@@ -40,6 +40,7 @@ class AdminController extends Controller
 		return redirect('/admin/login');
 	}
 
+	// 掲示板管理画面
 	public function index(Request $request) {
 		function reply_push($data, $article) {
 			/*
@@ -210,10 +211,6 @@ class AdminController extends Controller
 		return redirect('/admin/index');
 	}
 
-	public function delete_confirm(Request $request, Article $article) {
-		return view('bbs_admin.delete_confirm', ['data'=>$article, 'id'=>$article['id']]);
-	}
-
 	public function delete_complete(Request $request, Article $article) {
 		$result = $article->delete();
 
@@ -226,6 +223,7 @@ class AdminController extends Controller
 		return redirect('/admin/index');
 	}
 
+	// ユーザー管理画面
 	public function users(Request $request) {
 		$admins = Admin::all();
 		$adminsData = array();

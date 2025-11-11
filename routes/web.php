@@ -29,7 +29,6 @@ Route::middleware(['auth'])->group(function() {
 	Route::get('/editing/{article}', [ArticleController::class, 'editing']);
 	Route::post('/edit_complete/{article}', [ArticleController::class, 'edit_complete']);
 
-	Route::post('/delete_confirm/{article}', [ArticleController::class, 'delete_confirm']);
 	Route::post('/delete_complete/{article}', [ArticleController::class, 'delete_complete']);
 });
 
@@ -54,7 +53,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 		Route::post('delete_complete/{article}', [AdminController::class, 'delete_complete']);
 
 		Route::get('users', [AdminController::class, 'users']);
-		
+
 		Route::post('users/admin_create', [AdminController::class, 'admin_create']);
 
 		Route::post('users/admin_edit/{article}', [AdminController::class, 'admin_edit']);
@@ -70,7 +69,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
 		Route::get('users/user_edit/{article}', [AdminController::class, 'user_edit']);
 		Route::post('users/user_edit_complete/{article}', [AdminController::class, 'user_edit_complete']);
 
-		Route::post('users/user_delete_confirm/{article}', [AdminController::class, 'user_delete_confirm']);
 		Route::post('users/user_delete_complete/{article}', [AdminController::class, 'user_delete_complete']);
 	});
 });

@@ -27,7 +27,7 @@
 					<button type="submit">編集</button>
 				</form>
 				&nbsp;
-				<form action="{{ url('/admin/delete_confirm/'.$article['id']) }}" method="post">
+				<form action="{{ url('/admin/delete_complete/'.$article['id']) }}" method="post">
 					@csrf
 					<input type="hidden" name="id" value="{{ $article['id'] }}">
 					<button type="submit">削除</button>
