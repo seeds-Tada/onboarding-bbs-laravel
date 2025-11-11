@@ -10,7 +10,7 @@
 			<th>ユーザーネーム</th>
 			<td>
 				<span>
-					{{ $data->name }}
+					{{ $data->admin_name }}
 				</span>
 			</td>
 		</tr>
@@ -18,7 +18,7 @@
 			<th>メールアドレス</th>
 			<td>
 				<span>
-					{{ $data->email }}
+					{{ $data->admin_email }}
 				</span>
 			</td>
 		</tr>

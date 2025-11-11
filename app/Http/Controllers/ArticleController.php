@@ -9,7 +9,6 @@ use App\Http\Requests\ArticlePostRequest;
 
 class ArticleController extends Controller
 {
-	// 一般ユーザー
 	public function index() {
 		function reply_push($data, $article) {
 			/*
@@ -123,13 +122,6 @@ class ArticleController extends Controller
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
 
-		//ログイン状態を確認する
-		if(Auth::user()) {		// ログインしているユーザー
-			$form += array('user_id'=>Auth::user()->id);
-		}else {					// ログインしていないユーザー
-			return redirect('/');
-		}
-
 		$article = new Article;
 		$result = $article->fill($form)->save();
 
@@ -159,13 +151,6 @@ class ArticleController extends Controller
 			"reply_id" => $form['id']
 		);
 
-		//ログイン状態を確認する
-		if(Auth::user()) {		// ログインしているユーザー
-			$form += array('user_id'=>Auth::user()->id);
-		}else {					// ログインしていないユーザー
-			return redirect('/');
-		}
-
 		$article = new Article;
 		$result = $article->fill($form)->save();
 
@@ -179,13 +164,8 @@ class ArticleController extends Controller
 	}
 
 	public function editing(Request $request, Article $article) {
-		//ログイン状態を確認する
-		if(Auth::user()) {						// ログインしているユーザー
-			$user_id = Auth::user()->id;
-			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
-				return redirect('/');
-			}
-		}else {									// ログインしていないユーザー
+		// ログインしているユーザーとは別のユーザーの投稿
+		if($article['user_id'] !== Auth::user()->id) {
 			return redirect('/');
 		}
 
@@ -195,13 +175,8 @@ class ArticleController extends Controller
 	public function edit_complete(ArticlePostRequest $request, Article $article) {
 		$form = $request->only(['name', 'content']);
 
-		//ログイン状態を確認する
-		if(Auth::user()) {						// ログインしているユーザー
-			$user_id = Auth::user()->id;
-			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
-				return redirect('/');
-			}
-		}else {									// ログインしていないユーザー
+		// ログインしているユーザーとは別のユーザーの投稿
+		if($article['user_id'] !== Auth::user()->id) {
 			return redirect('/');
 		}
 
@@ -220,13 +195,8 @@ class ArticleController extends Controller
 	}
 
 	public function delete_confirm(Request $request, Article $article) {
-		//ログイン状態を確認する
-		if(Auth::user()) {						// ログインしているユーザー
-			$user_id = Auth::user()->id;
-			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
-				return redirect('/');
-			}
-		}else {									// ログインしていないユーザー
+		// ログインしているユーザーとは別のユーザーの投稿
+		if($article['user_id'] !== Auth::user()->id) {
 			return redirect('/');
 		}
 
@@ -234,13 +204,8 @@ class ArticleController extends Controller
 	}
 
 	public function delete_complete(Request $request, Article $article) {
-		//ログイン状態を確認する
-		if(Auth::user()) {						// ログインしているユーザー
-			$user_id = Auth::user()->id;
-			if($article['user_id'] !== $user_id) {	// ログインしているユーザーとは別のユーザーの投稿
-				return redirect('/');
-			}
-		}else {									// ログインしていないユーザー
+		// ログインしているユーザーとは別のユーザーの投稿
+		if($article['user_id'] !== Auth::user()->id) {
 			return redirect('/');
 		}
 

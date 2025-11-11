@@ -47,7 +47,6 @@ body {
 .post-table {
 	margin: 0 auto;
 }
-
 .post-table span {
 	text-align: left;
 }
@@ -143,6 +142,9 @@ button {
 	padding: 5px;
 }
 
+.users-table-area {
+	overflow-x: auto;
+}
 .users-table {
 	margin: 0 auto;
 	border: 1.5px solid #000;
@@ -157,6 +159,9 @@ button {
 	background-color: rgb(230 230 230);
 }
 
+.post-users-table-area {
+	overflow-x: auto;
+}
 .post-users-table {
 	margin: 0 auto;
 }

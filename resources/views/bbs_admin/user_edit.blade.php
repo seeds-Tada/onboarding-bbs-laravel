@@ -11,13 +11,21 @@
 			<tr>
 				<th>ユーザーネーム</th>
 				<td>
-					<input type="text" name="name" id="name" value="{{ old('name', $data->name) }}" required>
+					@if( $role === 'admin' )
+						<input type="text" name="admin_name" id="admin_name" value="{{ old('admin_name', $data->admin_name) }}" required>
+					@else
+						<input type="text" name="name" id="name" value="{{ old('name', $data->name) }}" required>
+					@endif
 				</td>
 			</tr>
 			<tr>
 				<th>メールアドレス</th>
 				<td>
-					<input type="email" name="email" id="email" value="{{ old('email', $data->email) }}" required>
+					@if( $role === 'admin' )
+						<input type="email" name="admin_email" id="admin_email" value="{{ old('admin_email', $data->admin_email) }}" required>
+					@else
+						<input type="email" name="email" id="email" value="{{ old('email', $data->email) }}" required>
+					@endif
 				</td>
 			</tr>
 		</tbody>

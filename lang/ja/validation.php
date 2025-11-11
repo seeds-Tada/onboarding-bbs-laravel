@@ -14,9 +14,11 @@ return [
 	'unique' => ':attribute はすでに登録されています。',
 	'attributes' => [
 		'name' => '名前',
+		'admin_name' => '名前',
 		'content' => '内容',
 		'reply_id' => '投稿ID',
 		'email' => 'メールアドレス',
+		'admin_email' => 'メールアドレス',
 		'password' => 'パスワード',
 	],
 ];

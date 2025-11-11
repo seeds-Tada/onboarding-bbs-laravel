@@ -6,6 +6,7 @@ use App\Http\Requests\ArticlePostRequest;
 use App\Http\Requests\AdminCreateUserRequest;
 use App\Http\Requests\AdminCreateAdminRequest;
 use App\Http\Requests\AdminEditUserRequest;
+use App\Http\Requests\AdminEditAdminRequest;
 use App\Http\Requests\AdminLoginRequest;
 use App\Models\Admin;
 use App\Models\User;
@@ -20,19 +21,18 @@ class AdminController extends Controller
 		return view('bbs_admin.login');
 	}
 
-    public function login_post(Request $request) {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+	public function login_post(AdminLoginRequest $request) {
+		$credentials = array(
+			'admin_email' => $request['admin_email'],
+			'password' => $request['password'],
+		);
 
 		if(Auth::guard('admin')->attempt($credentials, $request->boolean('rememder'))) {
 			$request->session()->regenerate();
 			return redirect()->intended(url('/admin/index'));
 		}
 
-		return view('bbs_admin.login');
-		// return redirect('/admin/login');
+		return redirect('/admin/login');
 	}
 
 	public function logout(Request $request) {
@@ -145,7 +145,7 @@ class AdminController extends Controller
 	public function post(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
-        $form += array('user_id'=>1);       // 仮
+		$form += array('user_id'=>0);
 
 		$article = new Article;
 		$result = $article->fill($form)->save();
@@ -174,9 +174,9 @@ class AdminController extends Controller
 		$form = array(
 			"name" => $replyName,
 			"content" => $replyContent,
-			"reply_id" => $id
+			"reply_id" => $id,
+			"user_id" => 0
 		);
-        $form += array('user_id'=>1);       // 仮
 
 		$article = new Article;
 		$result = $article->fill($form)->save();
@@ -234,8 +234,8 @@ class AdminController extends Controller
 				$adminsData,
 				array(
 					"id" => $admin->id,
-					"name" => $admin->name,
-					"email" => $admin->email,
+					"name" => $admin->admin_name,
+					"email" => $admin->admin_email,
 					"created_at" => $admin->created_at,
 					"updated_at" => $admin->updated_at,
 				)
@@ -261,7 +261,7 @@ class AdminController extends Controller
 	}
 
 	public function admin_create(AdminCreateAdminRequest $request) {
-		$form = $request->only(['name', 'email', 'password']);
+		$form = $request->only(['admin_name', 'admin_email', 'password']);
 		$form['password'] = Hash::make($form['password']);
 
 		$admin = new Admin;
@@ -280,11 +280,11 @@ class AdminController extends Controller
 		return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'admin']);
 	}
 
-	public function admin_edit_complete(Request $request, Admin $article) {
-		$form = $request->only(['name', 'email']);
+	public function admin_edit_complete(AdminEditUserRequest $request, Admin $article) {
+		$form = $request->only(['admin_name', 'admin_email']);
 
-		$article->name = $form['name'];
-		$article->email = $form['email'];
+		$article->admin_name = $form['admin_name'];
+		$article->admin_email = $form['admin_email'];
 		$result = $article->save();
 
 		if($result) {
@@ -301,14 +301,13 @@ class AdminController extends Controller
 	}
 
 	public function admin_delete_complete(Request $request, Admin $article) {
-		// $result = $article->delete();
+		$result = $article->delete();
 
-		// if($result) {
-		// 	session()->flash("flash.success", "管理者ユーザーの削除が完了しました。");
-		// }else {
-		// 	session()->flash("flash.error", "管理者ユーザーの削除が失敗しました。");
-		// }
-
+		if($result) {
+			session()->flash("flash.success", "管理者ユーザーの削除が完了しました。");
+		}else {
+			session()->flash("flash.error", "管理者ユーザーの削除が失敗しました。");
+		}
 		return redirect('/admin/users');
 	}
 
