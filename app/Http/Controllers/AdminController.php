@@ -278,7 +278,7 @@ class AdminController extends Controller
 		return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'admin']);
 	}
 
-	public function admin_edit_complete(AdminEditUserRequest $request, Admin $article) {
+	public function admin_edit_complete(AdminEditAdminRequest $request, Admin $article) {
 		$form = $request->only(['admin_name', 'admin_email']);
 
 		$article->admin_name = $form['admin_name'];
@@ -329,7 +329,7 @@ class AdminController extends Controller
 		return view('bbs_admin.user_edit', ['data'=>$article, 'id'=>$article['id'], 'role'=>'user']);
 	}
 
-	public function user_edit_complete(Request $request, User $article) {
+	public function user_edit_complete(AdminEditUserRequest $request, User $article) {
 		$form = $request->only(['name', 'email']);
 
 		$article->name = $form['name'];
