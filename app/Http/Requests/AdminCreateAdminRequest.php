@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AdminCreateAdminRequest extends FormRequest
 {
@@ -26,5 +28,13 @@ class AdminCreateAdminRequest extends FormRequest
 			'admin_email' => 'required|string|email|max:255|unique:admins',
 			'password' => 'required|string|min:8',
 		];
+	}
+
+	protected function failedValidation(Validator $validator) {
+		$this->session()->flash('user_create', 'admin');
+
+		throw (new ValidationException($validator))
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 }

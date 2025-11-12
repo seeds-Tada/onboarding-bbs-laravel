@@ -4,13 +4,13 @@
 
 @section('content')
 <br>
-@if( session("flash") )
-	@foreach( session("flash") as $key => $item )
-		<div class="flash-alert flash-alert-{{ $key }}">
-			{{ session("flash.".$key) }}
-		</div>
-	@endforeach
-@endif
+	@if( session("flash") )
+		@foreach( session("flash") as $key => $item )
+			<div class="flash-alert flash-alert-{{ $key }}">
+				{{ session("flash.".$key) }}
+			</div>
+		@endforeach
+	@endif
 <div class="users-area">
 	<div class="admin-users users">
 		<div class="post-users-table-area">
@@ -40,7 +40,7 @@
 				<button type="submit">投稿</button>
 			</form>
 			@if (count($errors) > 0)
-				@if ($errors->first('admin_name') || $errors->first('admin_email') || $errors->first('password'))
+				@if ( session('user_create')==='admin' )
 					<div class="error-mes">
 						@foreach ($errors->all() as $error)
 							<span>{{$error}}</span>
@@ -119,7 +119,7 @@
 				<button type="submit">投稿</button>
 			</form>
 			@if (count($errors) > 0)
-				@if ($errors->first('name') || $errors->first('email') || $errors->first('password'))
+				@if ( session('user_create')==='user' )
 					<div class="error-mes">
 						@foreach ($errors->all() as $error)
 							<span>{{$error}}</span>
