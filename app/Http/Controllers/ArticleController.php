@@ -121,6 +121,7 @@ class ArticleController extends Controller
 	public function post_complete(ArticlePostRequest $request) {
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
+		$form += array('user_id'=>Auth::user()->id);
 
 		$article = new Article;
 		$result = $article->fill($form)->save();
@@ -146,6 +147,7 @@ class ArticleController extends Controller
 		}
 
 		$form = array(
+			"user_id" => Auth::user()->id,
 			"name" => $form['reply-name-'.$form['id']],
 			"content" => $form['reply-content-'.$form['id']],
 			"reply_id" => $form['id']
