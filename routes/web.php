@@ -49,7 +49,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
 		Route::get('editing/{article}', [AdminController::class, 'editing']);
 		Route::post('edit_complete/{article}', [AdminController::class, 'edit_complete']);
 
-		Route::post('delete_confirm/{article}', [AdminController::class, 'delete_confirm']);
 		Route::post('delete_complete/{article}', [AdminController::class, 'delete_complete']);
 
 		Route::get('users', [AdminController::class, 'users']);
