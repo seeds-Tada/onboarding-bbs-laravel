@@ -6,6 +6,7 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ArticlePostRequest;
+use App\Http\Requests\UserLoginRequest;
 
 class ArticleController extends Controller
 {
@@ -116,6 +117,23 @@ class ArticleController extends Controller
 		}
 
 		return view('bbs.index', ['articles'=>$data, 'user_id'=>$user_id]);
+	}
+
+	public function login_post(UserLoginRequest $request) {
+		$credentials = array(
+			'email' => $request['email'],
+			'password' => $request['password'],
+		);
+
+		if(Auth::guard()->attempt($credentials, $request->boolean('rememder'))) {
+			$request->session()->regenerate();
+
+			session()->flash("flash.success", "You are logged in!");
+			return redirect()->intended(url('/'));
+		}
+
+		session()->flash("flash.error", "Login failed!");
+		return redirect('/login');
 	}
 
 	public function post_complete(ArticlePostRequest $request) {

@@ -18,6 +18,7 @@ use App\Http\Controllers\AdminController;
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::post('login_post', [ArticleController::class, 'login_post']);
 Route::get('/', [ArticleController::class, 'index']);
 
 Route::middleware(['auth'])->group(function() {
