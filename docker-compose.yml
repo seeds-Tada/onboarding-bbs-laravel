@@ -22,12 +22,6 @@ services:
     depends_on:
       - db
       - node
-    command: /bin/bash -c "
-        /usr/local/bin/wait-for-it.sh db:3306 -t 30 -- \
-        php artisan migrate && \
-        php artisan db:seed && \
-        exec /usr/local/bin/apache2-foreground
-      "
   node:
     build:
       context: docker/node
