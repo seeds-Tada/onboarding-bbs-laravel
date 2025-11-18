@@ -16,9 +16,11 @@ return [
 		'name' => '名前',
 		'admin_name' => '名前',
 		'content' => '内容',
-		'reply_id' => '投稿ID',
 		'email' => 'メールアドレス',
 		'admin_email' => 'メールアドレス',
 		'password' => 'パスワード',
+		'id' => '投稿ID',
+		'reply-name' => '名前',
+		'reply-content' => '内容'
 	],
 ];
