@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UsersTableSeeder extends Seeder
@@ -18,7 +17,7 @@ class UsersTableSeeder extends Seeder
 		$param = [
 			'name'=>'admin',
 			'email'=>'admin@example.net',
-			'password'=>Hash::make("password"),
+			'password'=>"password",
 		];
 		$user->fill($param)->save();
 
@@ -26,7 +25,7 @@ class UsersTableSeeder extends Seeder
 		$param = [
 			'name'=>'tester',
 			'email'=>'tester@example.net',
-			'password'=>Hash::make("password"),
+			'password'=>"password",
 		];
 		$user->fill($param)->save();
 	}
