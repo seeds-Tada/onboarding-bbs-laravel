@@ -27,32 +27,38 @@
 						</form>
 					</div>
 				@endif
-				<details>
-					<summary>
-						<strong class="reply-post-switch">返信する</strong>
-					</summary>
+				@guest
 					<div>
-						<form action="{{ url('/reply_post') }}" method="post" class="reply-post-form">
-							@csrf
-							<input type="hidden" name="id" value="{{ $article['id'] }}">
-							<table class="reply-post-table">
-								<tbody>
-									<tr>
-										<th><label for="reply-name-{{ $article['id'] }}">名前</label></th>
-										<td><input type="text" name="reply-name-{{ $article['id'] }}" id="reply-name-{{ $article['id'] }}" value="{{ old('reply-name-'.$article['id']) }}"></td>
-									</tr>
-									<tr>
-									<th><label for="reply-content-{{ $article['id'] }}">投稿内容</label></th>
-										<td>
-											<textarea name="reply-content-{{ $article['id'] }}" id="reply-content-{{ $article['id'] }}" rows="4">{{ old("reply-content-".$article['id']) }}</textarea>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<button type="submit">返信</button>
-						</form>
+						<span>ログインユーザーのみ返信可</span>
 					</div>
-				</details>
+				@else
+					<details>
+						<summary>
+							<strong class="reply-post-switch">返信する</strong>
+						</summary>
+						<div>
+							<form action="{{ url('/reply_post') }}" method="post" class="reply-post-form">
+								@csrf
+								<input type="hidden" name="id" value="{{ $article['id'] }}">
+								<table class="reply-post-table">
+									<tbody>
+										<tr>
+											<th><label for="reply-name-{{ $article['id'] }}">名前</label></th>
+											<td><input type="text" name="reply-name-{{ $article['id'] }}" id="reply-name-{{ $article['id'] }}" value="{{ old('reply-name-'.$article['id']) }}"></td>
+										</tr>
+										<tr>
+										<th><label for="reply-content-{{ $article['id'] }}">投稿内容</label></th>
+											<td>
+												<textarea name="reply-content-{{ $article['id'] }}" id="reply-content-{{ $article['id'] }}" rows="4">{{ old("reply-content-".$article['id']) }}</textarea>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<button type="submit">返信</button>
+							</form>
+						</div>
+					</details>
+				@endguest
 				@if ($article['reply'])
 					<div>
 						@include(
