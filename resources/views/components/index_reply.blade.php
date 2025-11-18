@@ -56,6 +56,13 @@
 								</table>
 								<button type="submit">返信</button>
 							</form>
+							@if (count($errors) > 0 && old('id') == $article['id'])
+								<div class="error-mes">
+									@foreach ($errors->all() as $error)
+										<span>{{$error}}</span>
+									@endforeach
+								</div>
+							@endif
 						</div>
 					</details>
 				@endguest
