@@ -23,8 +23,7 @@ class ArticlePostRequest extends FormRequest
 	{
 		return [
 			'name' => 'required|string',
-			'content' => 'required|string',
-			'reply_id' => 'integer'
+			'content' => 'required|string'
 		];
 	}
 }
