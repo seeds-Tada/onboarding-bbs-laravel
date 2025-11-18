@@ -45,18 +45,25 @@
 							<tbody>
 								<tr>
 									<th><label for="reply-name-{{ $article['id'] }}">名前</label></th>
-									<td><input type="text" name="reply-name-{{ $article['id'] }}" id="reply-name-{{ $article['id'] }}" value="{{ old('reply-name-'.$article['id']) }}"></td>
+									<td><input type="text" name="reply-name" id="reply-name-{{ $article['id'] }}" value=""></td>
 								</tr>
 								<tr>
 									<th><label for="reply-content-{{ $article['id'] }}">投稿内容</label></th>
 									<td>
-										<textarea name="reply-content-{{ $article['id'] }}" id="reply-content-{{ $article['id'] }}" rows="4">{{ old("reply-content-".$article['id']) }}</textarea>
+										<textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4"></textarea>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<button type="submit">返信</button>
 					</form>
+					@if (count($errors) > 0 && old('id') == $article['id'])
+						<div class="error-mes">
+							@foreach ($errors->all() as $error)
+								<span>{{$error}}</span>
+							@endforeach
+						</div>
+					@endif
 				</div>
 			</details>
 			@if ($article['reply'])
@@ -96,7 +103,7 @@
 	<button type="submit">投稿</button>
 </form>
 
-@if (count($errors) > 0)
+@if (count($errors) > 0 && !old('id'))
 	<div class="error-mes">
 		@foreach ($errors->all() as $error)
 			<span>{{$error}}</span>

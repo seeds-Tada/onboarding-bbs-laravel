@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticlePostRequest;
+use App\Http\Requests\PostReplyRequest;
 use App\Http\Requests\AdminCreateUserRequest;
 use App\Http\Requests\AdminCreateAdminRequest;
 use App\Http\Requests\AdminEditUserRequest;
@@ -160,27 +161,17 @@ class AdminController extends Controller
 		return redirect('/admin/index');
 	}
 
-	public function reply_post(Request $request) {
-		$id = $request['id'];
-		if(empty($id)) {
-			return redirect('/admin/index');
-		}
-
-		$replyName = $request['reply-name-'.$id];
-		$replyContent = $request['reply-content-'.$id];
-		if(empty($replyName) || empty($replyContent)) {
-			return redirect('/admin/index');
-		}
-
-		$form = array(
-			"name" => $replyName,
-			"content" => $replyContent,
-			"reply_id" => $id,
-			"user_id" => 0
+	public function reply_post(PostReplyRequest $request) {
+		$form = $request->only(['id', 'reply-name', 'reply-content']);
+		$insertData = array(
+			"user_id" => 0,
+			"name" => $form['reply-name'],
+			"content" => $form['reply-content'],
+			"reply_id" => $form['id']
 		);
 
 		$article = new Article;
-		$result = $article->fill($form)->save();
+		$result = $article->fill($insertData)->save();
 
 		if($result) {
 			session()->flash("flash.success", "登録が完了しました。");
