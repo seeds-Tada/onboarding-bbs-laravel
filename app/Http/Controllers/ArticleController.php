@@ -6,6 +6,7 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ArticlePostRequest;
+use App\Http\Requests\PostReplyRequest;
 use App\Http\Requests\UserLoginRequest;
 
 class ArticleController extends Controller
@@ -153,26 +154,17 @@ class ArticleController extends Controller
 		return redirect('/');
 	}
 
-	public function reply_post(Request $request) {
-		$form = $request->only(['id']);
-		if(empty($form['id'])) {
-			return redirect('/');
-		}
-
-		$form = $request->only(['reply-name-'.$form['id'], 'reply-content-'.$form['id'], 'id']);
-		if(empty($form['reply-name-'.$form['id']]) || empty($form['reply-content-'.$form['id']])) {
-			return redirect('/');
-		}
-
-		$form = array(
+	public function reply_post(PostReplyRequest $request) {
+		$form = $request->only(['id', 'reply-name', 'reply-content']);
+		$insertData = array(
 			"user_id" => Auth::user()->id,
-			"name" => $form['reply-name-'.$form['id']],
-			"content" => $form['reply-content-'.$form['id']],
+			"name" => $form['reply-name'],
+			"content" => $form['reply-content'],
 			"reply_id" => $form['id']
 		);
 
 		$article = new Article;
-		$result = $article->fill($form)->save();
+		$result = $article->fill($insertData)->save();
 
 		if($result) {
 			session()->flash("flash.success", "登録が完了しました。");
