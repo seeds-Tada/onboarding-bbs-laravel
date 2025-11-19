@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\ArticlePostRequest;
+use App\Http\Requests\PostRequest;
 use App\Http\Requests\PostReplyRequest;
 use App\Http\Requests\UserLoginRequest;
 
@@ -137,7 +137,7 @@ class ArticleController extends Controller
 		return redirect('/login');
 	}
 
-	public function post_complete(ArticlePostRequest $request) {
+	public function post_complete(PostRequest $request) {
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
 		$form += array('user_id'=>Auth::user()->id);
@@ -184,7 +184,7 @@ class ArticleController extends Controller
 		return view('bbs.editing', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
-	public function edit_complete(ArticlePostRequest $request, Article $article) {
+	public function edit_complete(PostRequest $request, Article $article) {
 		$form = $request->only(['name', 'content']);
 
 		// ログインしているユーザーとは別のユーザーの投稿

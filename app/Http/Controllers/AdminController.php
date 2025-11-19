@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ArticlePostRequest;
+use App\Http\Requests\PostRequest;
 use App\Http\Requests\PostReplyRequest;
 use App\Http\Requests\AdminCreateUserRequest;
 use App\Http\Requests\AdminCreateAdminRequest;
@@ -144,7 +144,7 @@ class AdminController extends Controller
 		return view('bbs_admin.index', ['articles'=>$data]);
 	}
 
-	public function post(ArticlePostRequest $request) {
+	public function post(PostRequest $request) {
 		$form = $request->only(['name', 'content']);
 		$form += array('reply_id'=>0);
 		$form += array('user_id'=>0);
@@ -186,7 +186,7 @@ class AdminController extends Controller
 		return view('bbs_admin.editing', ['data'=>$article, 'id'=>$article['id']]);
 	}
 
-	public function edit_complete(ArticlePostRequest $request, Article $article) {
+	public function edit_complete(PostRequest $request, Article $article) {
 		$form = $request->only(['name', 'content']);
 
 		$article->name = $form['name'];
