@@ -56,12 +56,12 @@
 								<tbody>
 									<tr>
 										<th><label for="reply-name-{{ $article['id'] }}">名前</label></th>
-										<td><input type="text" name="reply-name" id="reply-name-{{ $article['id'] }}" value=""></td>
+										<td><input type="text" name="reply-name" id="reply-name-{{ $article['id'] }}" value="" required></td>
 									</tr>
 									<tr>
 										<th><label for="reply-content-{{ $article['id'] }}">投稿内容</label></th>
 										<td>
-											<textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4"></textarea>
+											<textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4" required></textarea>
 										</td>
 									</tr>
 								</tbody>
@@ -110,11 +110,11 @@
 			<tbody>
 				<tr>
 					<th><label for="name">名前</label></th>
-					<td><input type="text" name="name" id="name" value="{{ old('name') }}"></td>
+					<td><input type="text" name="name" id="name" value="{{ old('name') }}" required></td>
 				</tr>
 				<tr>
 					<th><label for="content">投稿内容</label></th>
-					<td><textarea name="content" id="content" rows="4"> {{ old('content') }}</textarea></td>
+					<td><textarea name="content" id="content" rows="4" required> {{ old('content') }}</textarea></td>
 				</tr>
 			</tbody>
 		</table>
