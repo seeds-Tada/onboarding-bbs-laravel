@@ -42,16 +42,22 @@
 								<input type="hidden" name="id" value="{{ $article['id'] }}">
 								<table class="reply-post-table">
 									<tbody>
-										<tr>
-											<th><label for="reply-name-{{ $article['id'] }}">名前</label></th>
+									<tr>
+										<th><label for="reply-name-{{ $article['id'] }}">名前</label></th>
+										@if (old('id') == $article['id'])
+											<td><input type="text" name="reply-name" id="reply-name-{{ $article['id'] }}" value="{{ old('reply-name') }}" required></td>
+										@else
 											<td><input type="text" name="reply-name" id="reply-name-{{ $article['id'] }}" value="" required></td>
-										</tr>
-										<tr>
+										@endif
+									</tr>
+									<tr>
 										<th><label for="reply-content-{{ $article['id'] }}">投稿内容</label></th>
-											<td>
-												<textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4" required></textarea>
-											</td>
-										</tr>
+										@if (old('id') == $article['id'])
+											<td><textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4" required>{{ old('reply-content') }}</textarea></td>
+										@else
+											<td><textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4" required></textarea></td>
+										@endif
+									</tr>
 									</tbody>
 								</table>
 								<button type="submit">返信</button>
