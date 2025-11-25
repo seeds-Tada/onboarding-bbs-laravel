@@ -126,7 +126,7 @@ class ArticleController extends Controller
 			'password' => $request['password'],
 		);
 
-		if(Auth::guard()->attempt($credentials, $request->boolean('rememder'))) {
+		if(Auth::guard()->attempt($credentials, $request->boolean('remember'))) {
 			$request->session()->regenerate();
 
 			session()->flash("flash.success", "You are logged in!");

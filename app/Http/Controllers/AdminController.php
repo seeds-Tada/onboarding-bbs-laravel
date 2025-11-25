@@ -28,7 +28,7 @@ class AdminController extends Controller
 			'password' => $request['password'],
 		);
 
-		if(Auth::guard('admin')->attempt($credentials, $request->boolean('rememder'))) {
+		if(Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
 			$request->session()->regenerate();
 			return redirect()->intended(url('/admin/index'));
 		}
