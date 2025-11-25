@@ -71,14 +71,14 @@
 							<td>{{ $admin['created_at'] }}</td>
 							<td>{{ $admin['updated_at'] }}</td>
 							<td>
-								<form action="{{ url('/admin/users/admin_edit/'.$admin['id']) }}" method="post" id="admin-edit-{{ $admin['id'] }}">
+								<form action="{{ url('/admin/users/admin_edit/'.$admin['id']) }}" method="get" id="admin-edit-{{ $admin['id'] }}">
 									@csrf
 									<input type="hidden" name="id" value="{{ $admin['id'] }}">
 									<button type="submit">編集</button>
 								</form>
 							</td>
 							<td>
-								<form action="{{ url('/admin/users/admin_delete_confirm/'.$admin['id']) }}" method="post" id="admin-delete-{{ $admin['id'] }}">
+								<form action="{{ url('/admin/users/admin_delete_confirm/'.$admin['id']) }}" method="get" id="admin-delete-{{ $admin['id'] }}">
 									@csrf
 									<input type="hidden" name="id" value="{{ $admin['id'] }}">
 									<button type="submit">削除</button>
@@ -150,14 +150,14 @@
 							<td>{{ $user['created_at'] }}</td>
 							<td>{{ $user['updated_at'] }}</td>
 							<td>
-								<form action="{{ url('/admin/users/user_edit/'.$user['id']) }}" method="post" id="user-edit-{{ $user['id'] }}">
+								<form action="{{ url('/admin/users/user_edit/'.$user['id']) }}" method="get" id="user-edit-{{ $user['id'] }}">
 									@csrf
 									<input type="hidden" name="id" value="{{ $user['id'] }}">
 									<button type="submit">編集</button>
 								</form>
 							</td>
 							<td>
-								<form action="{{ url('/admin/users/user_delete_confirm/'.$user['id']) }}" method="post" id="user-delete-{{ $user['id'] }}">
+								<form action="{{ url('/admin/users/user_delete_confirm/'.$user['id']) }}" method="get" id="user-delete-{{ $user['id'] }}">
 									@csrf
 									<input type="hidden" name="id" value="{{ $user['id'] }}">
 									<button type="submit">削除</button>

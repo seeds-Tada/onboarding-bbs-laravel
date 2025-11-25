@@ -54,20 +54,18 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 		Route::post('users/admin_create', [AdminController::class, 'admin_create']);
 
-		Route::post('users/admin_edit/{article}', [AdminController::class, 'admin_edit']);
 		Route::get('users/admin_edit/{article}', [AdminController::class, 'admin_edit']);
 		Route::post('users/admin_edit_complete/{article}', [AdminController::class, 'admin_edit_complete']);
 
-		Route::post('users/admin_delete_confirm/{article}', [AdminController::class, 'admin_delete_confirm']);
+		Route::get('users/admin_delete_confirm/{article}', [AdminController::class, 'admin_delete_confirm']);
 		Route::post('users/admin_delete_complete/{article}', [AdminController::class, 'admin_delete_complete']);
 
 		Route::post('users/user_create', [AdminController::class, 'user_create']);
 
-		Route::post('users/user_edit/{article}', [AdminController::class, 'user_edit']);
 		Route::get('users/user_edit/{article}', [AdminController::class, 'user_edit']);
 		Route::post('users/user_edit_complete/{article}', [AdminController::class, 'user_edit_complete']);
 
-		Route::post('users/user_delete_confirm/{article}', [AdminController::class, 'user_delete_confirm']);
+		Route::get('users/user_delete_confirm/{article}', [AdminController::class, 'user_delete_confirm']);
 		Route::post('users/user_delete_complete/{article}', [AdminController::class, 'user_delete_complete']);
 	});
 });
