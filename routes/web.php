@@ -26,7 +26,6 @@ Route::middleware(['auth'])->group(function() {
 
 	Route::post('/reply_post', [ArticleController::class, 'reply_post']);
 
-	Route::post('/editing/{article}', [ArticleController::class, 'editing']);
 	Route::get('/editing/{article}', [ArticleController::class, 'editing']);
 	Route::post('/edit_complete/{article}', [ArticleController::class, 'edit_complete']);
 
@@ -46,7 +45,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
 		Route::post('post', [AdminController::class, 'post']);
 		Route::post('reply_post', [AdminController::class, 'reply_post']);
 
-		Route::post('editing/{article}', [AdminController::class, 'editing']);
 		Route::get('editing/{article}', [AdminController::class, 'editing']);
 		Route::post('edit_complete/{article}', [AdminController::class, 'edit_complete']);
 
