@@ -21,7 +21,7 @@
 			<th>メールアドレス</th>
 			<td>
 				@if( $role === 'admin' )
-					<span>{{ $data->dmin_email }}</span>
+					<span>{{ $data->admin_email }}</span>
 				@else
 					<span>{{ $data->email }}</span>
 				@endif
