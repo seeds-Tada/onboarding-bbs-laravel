@@ -37,7 +37,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<button type="submit">投稿</button>
+				<button type="submit">作成</button>
 			</form>
 			@if (count($errors) > 0)
 				@if ( session('user_create')==='admin' )
@@ -116,7 +116,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<button type="submit">投稿</button>
+				<button type="submit">作成</button>
 			</form>
 			@if (count($errors) > 0)
 				@if ( session('user_create')==='user' )
