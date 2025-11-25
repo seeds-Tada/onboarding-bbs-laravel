@@ -4,6 +4,13 @@
 
 @section('content')
 <br>
+@if( session("flash") )
+	@foreach( session("flash") as $key => $item )
+		<div class="flash-alert flash-alert-{{ $key }}">
+			{{ session("flash.".$key) }}
+		</div>
+	@endforeach
+@endif
 <div class="container">
 	<div class="row justify-content-center">
 		<div class="col-md-8">

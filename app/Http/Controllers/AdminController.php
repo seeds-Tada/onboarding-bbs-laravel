@@ -30,9 +30,11 @@ class AdminController extends Controller
 
 		if(Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
 			$request->session()->regenerate();
+			session()->flash("flash.success", "You are logged in!");
 			return redirect()->intended(url('/admin/index'));
 		}
 
+		session()->flash("flash.error", "Login failed!");
 		return redirect('/admin/login')->withErrors([
 			'login' => 'メールアドレス又はパスワードが間違っています。',
 		]);
