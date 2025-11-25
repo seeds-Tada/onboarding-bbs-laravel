@@ -69,6 +69,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 		Route::get('users/user_edit/{article}', [AdminController::class, 'user_edit']);
 		Route::post('users/user_edit_complete/{article}', [AdminController::class, 'user_edit_complete']);
 
+		Route::post('users/user_delete_confirm/{article}', [AdminController::class, 'user_delete_confirm']);
 		Route::post('users/user_delete_complete/{article}', [AdminController::class, 'user_delete_complete']);
 	});
 });

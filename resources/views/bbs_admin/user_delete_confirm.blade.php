@@ -9,17 +9,22 @@
 		<tr>
 			<th>ユーザーネーム</th>
 			<td>
-				<span>
-					{{ $data->admin_name }}
-				</span>
+				@if( $role === 'admin' )
+					<span>{{ $data->admin_name }}</span>
+				@else
+					<span>{{ $data->name }}</span>
+				@endif
+
 			</td>
 		</tr>
 		</tr>
 			<th>メールアドレス</th>
 			<td>
-				<span>
-					{{ $data->admin_email }}
-				</span>
+				@if( $role === 'admin' )
+					<span>{{ $data->dmin_email }}</span>
+				@else
+					<span>{{ $data->email }}</span>
+				@endif
 			</td>
 		</tr>
 	</tbody>
