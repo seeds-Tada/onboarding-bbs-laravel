@@ -134,7 +134,9 @@ class ArticleController extends Controller
 		}
 
 		session()->flash("flash.error", "Login failed!");
-		return redirect('/login');
+		return redirect('/login')->withErrors([
+			'login' => 'メールアドレス又はパスワードが間違っています。',
+		]);
 	}
 
 	public function post_complete(PostRequest $request) {

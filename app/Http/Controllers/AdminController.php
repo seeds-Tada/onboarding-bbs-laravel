@@ -33,7 +33,9 @@ class AdminController extends Controller
 			return redirect()->intended(url('/admin/index'));
 		}
 
-		return redirect('/admin/login');
+		return redirect('/admin/login')->withErrors([
+			'login' => 'メールアドレス又はパスワードが間違っています。',
+		]);
 	}
 
 	public function logout(Request $request) {
