@@ -23,7 +23,7 @@ class AdminEditAdminRequest extends FormRequest
 	{
 		return [
 			'admin_name' => 'required|string|max:255',
-			'admin_email' => 'required|string|email|max:255|unique:admins',
+			'admin_email' => 'required|string|email|max:255',
 		];
 	}
 }
