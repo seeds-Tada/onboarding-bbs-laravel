@@ -12,54 +12,15 @@ use App\Http\Requests\UserLoginRequest;
 class ArticleController extends Controller
 {
 	public function index() {
-		function reply_push($data, $article) {
-			if(is_null($article->reply_id)) {		// reply_idが0である投稿は返信ではない
-				$data[$article->id] = array(
-					"id" => $article->id,
-					"user_id" => $article->user_id,
-					"name" => $article->name,
-					"content" => $article->content,
-					"reply" => array(),
-					"created_at" => $article->created_at,
-					"updated_at" => $article->updated_at
-				);
-			}else {		// reply_idが0ではない投稿は返信である
-				if(!empty($data[$article->reply_id])) {		// article["reply_id"]の数字がarticle["id"]と同じとき、そのidの投稿に対する返信である
-						$data[$article->reply_id]["reply"][$article->id] = array(
-						"id" => $article->id,
-						"user_id" => $article->user_id,
-						"name" => $article->name,
-						"content" => $article->content,
-						"reply" => array(),
-						"created_at" => $article->created_at,
-						"updated_at" => $article->updated_at,
-					);
-					return $data;
-				}else {		// article["reply_id"]の数字がarticle["id"]と同じではないとき、その投稿に対する返信ではない 又は その投稿への返信に対する返信である
-					foreach($data as $replyTo) {
-						if(!empty($replyTo["reply"])) {		// その投稿に対する返信があるかどうか、なければその投稿への返信に対する返信ではない
-							/*
-								その投稿への返信に対する返信であれば、その投稿への返信に対する返信を追加したものに置き換える
-								その投稿への返信に対する返信でなければ、何も変わらない（同じものと置き換える）
-							*/
-							$temp = reply_push($replyTo["reply"], $article);
-							$data_id_temp = array_search($replyTo, $data, true);
-
-							$replyTo["reply"] = $temp;
-							$data[$data_id_temp] = $replyTo;
-						}
-					}
-					return $data;
-				}
-			}
-			return $data;
-		}
-
-		$articles = Article::all();
-		$data = array();
-		foreach($articles as $article) {
-			$data = reply_push($data, $article);
-		}
+		$articles = Article::query()
+			->whereNull('reply_id')
+			->orderBy('created_at', 'asc')
+			->with([
+				'user',
+				'allReplies',
+				'allReplies.user'
+			])
+			->get();
 
 		//ログイン状態を確認する
 		if(Auth::user()) {		// ログインしているユーザー
@@ -68,7 +29,7 @@ class ArticleController extends Controller
 			$user_id = null;
 		}
 
-		return view('bbs.index', ['articles'=>$data, 'user_id'=>$user_id]);
+		return view('bbs.index', ['articles'=>$articles, 'user_id'=>$user_id]);
 	}
 
 	public function login_post(UserLoginRequest $request) {
