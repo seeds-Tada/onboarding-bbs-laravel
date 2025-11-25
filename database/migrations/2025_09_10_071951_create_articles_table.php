@@ -16,9 +16,10 @@ return new class extends Migration
 			$table->integer('user_id');
 			$table->string('name');
 			$table->text('content');
-			$table->integer('reply_id');
+			$table->unsignedInteger('reply_id')->nullable();
 			$table->timestamps();
-			// $table->foreign('user_id')->references('id')->on('users');
+			$table->index('reply_id');
+			$table->foreign('reply_id')->references('id')->on('articles')->onDelete('cascade');
 		});
 	}
 

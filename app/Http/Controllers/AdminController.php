@@ -48,7 +48,7 @@ class AdminController extends Controller
 	// 掲示板管理画面
 	public function index(Request $request) {
 		function reply_push($data, $article) {
-			if($article->reply_id === 0) {		// reply_idが0である投稿は返信ではない
+			if(is_null($article->reply_id)) {		// reply_idが0である投稿は返信ではない
 				$data[$article->id] = array(
 					"id" => $article->id,
 					"user_id" => $article->user_id,
@@ -101,7 +101,7 @@ class AdminController extends Controller
 
 	public function post(PostRequest $request) {
 		$form = $request->only(['name', 'content']);
-		$form += array('reply_id'=>0);
+		$form += array('reply_id'=>null);
 		$form += array('user_id'=>0);
 
 		$article = new Article;
