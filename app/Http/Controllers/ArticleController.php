@@ -13,55 +13,6 @@ class ArticleController extends Controller
 {
 	public function index() {
 		function reply_push($data, $article) {
-			/*
-				木構造を配列で表現する
-				木構造配列
-				array(		// すべての投稿
-					array(		// 投稿
-						"id" => 1,
-						"name" => "tester",
-						"content" => "new post1",
-						"reply" => array(),　　// 返信があった場合、ここに返信の投稿を追加する
-					),
-					array(
-						"id" => 2,
-						"name" => "tester",
-						"content" => "new post2",
-						"reply" => array(
-							array(		// 投稿に対するの返信
-								"id" => 3,
-								"name" => "tester",
-								"content" => "reply post1",
-								"reply" => array(),
-							),
-							array(
-								"id" => 4,
-								"name" => "tester",
-								"content" => "reply post",
-								"reply" => array(
-									array(		// 投稿への返信に対する返信
-										"id" => 5,
-										"name" => "tester",
-										"content" => "reply post3",
-										"reply" => array(),
-									),
-								),
-							),
-						),
-					),
-				)
-			
-				article table		(上記の木構造で表現されたデータの場合)
-				id,		name,		content,			reply_id
-				1,		"tester",	"new post1",		0
-				2,		"tester",	"new post2",		0
-				3,		"tester",	"reply post1",		2
-				4,		"tester",	"reply post2",		2
-				5,		"tester",	"reply post3",		4
-
-				どの投稿に対する返信なのかをreply_idに保存する
-				reply_idが0である投稿は返信ではない
-			*/
 			if($article->reply_id === 0) {		// reply_idが0である投稿は返信ではない
 				$data[$article->id] = array(
 					"id" => $article->id,
