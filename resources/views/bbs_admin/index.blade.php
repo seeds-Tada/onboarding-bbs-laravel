@@ -72,12 +72,12 @@
 					@endif
 				</div>
 			</details>
-			@if ($article['reply'])
+			@if ($article->allReplies->isNotEmpty())
 				<div>
 					@include(
 						"components/admin_index_reply",
 						[
-							"articles" => $article["reply"],
+							"articles" => $article->allReplies,
 							"to" => $article
 						]
 					)

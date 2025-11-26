@@ -84,12 +84,12 @@
 					</div>
 				</details>
 			@endguest
-			@if ($article['reply'])
+			@if ($article->allReplies->isNotEmpty())
 				<div>
 					@include(
 						"components/index_reply",
 						[
-							"articles" => $article["reply"],
+							"articles" => $article->allReplies,
 							"to" => $article,
 							"user_id" => $user_id
 						]

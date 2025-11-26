@@ -1,6 +1,6 @@
 <details>
 	<summary>
-		<strong class="index-reply-switch">{{$to['id']}}への返信を表示する {{count($to['reply'])}}件</strong>
+		<strong class="index-reply-switch">{{$to['id']}}への返信を表示する {{count($articles)}}件</strong>
 	</summary>
 	<div>
 		@foreach ($articles as $article)
@@ -64,12 +64,12 @@
 						@endif
 					</div>
 				</details>
-				@if ($article['reply'])
+				@if ($article->allReplies->isNotEmpty())
 					<div>
 						@include(
 							"components/admin_index_reply",
 							[
-								"articles" => $article["reply"],
+								"articles" => $article->allReplies,
 								"to" => $article
 							]
 						)
