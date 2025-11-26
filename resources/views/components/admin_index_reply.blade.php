@@ -5,23 +5,23 @@
 	<div>
 		@foreach ($articles as $article)
 			<hr>
-			<div  id="index-message-{{$article['id']}}">
+			<div  id="index-message-{{$article->id}}">
 				<div class="bbs-message-header">
-					{{ $article['id'] }}:&nbsp;<span class="bbs-message-name">{{ $article['name'] }}</span>&nbsp;{{$article['updated_at']}}
+					{{ $article->id }}:&nbsp;<span class="bbs-message-name">{{ $article->name }}</span>&nbsp;{{$article->updated_at}}
 				</div>
 				<div class="bbs-message-content">
-					<pre><a class="index-reply-to" href="#index-message-{{$to['id']}}">>>{{$to['id']}}</a>{{ $article['content'] }}</pre>
+					<pre><a class="index-reply-to" href="#index-message-{{$to['id']}}">>>{{$to['id']}}</a>{{ $article->content }}</pre>
 				</div>
 				<div class="bbs-message-button">
-					<form action="{{ url('/admin/editing/'.$article['id']) }}" method="post">
+					<form action="{{ url('/admin/editing/'.$article->id) }}" method="post">
 						@csrf
-						<input type="hidden" name="id" value="{{ $article['id'] }}">
+						<input type="hidden" name="id" value="{{ $article->id }}">
 						<button type="submit">編集</button>
 					</form>
 					&nbsp;
-					<form action="{{ url('/admin/delete_complete/'.$article['id']) }}" method="post">
+					<form action="{{ url('/admin/delete_complete/'.$article->id) }}" method="post">
 						@csrf
-						<input type="hidden" name="id" value="{{ $article['id'] }}">
+						<input type="hidden" name="id" value="{{ $article->id }}">
 						<button type="submit">削除</button>
 					</form>
 				</div>
@@ -32,30 +32,30 @@
 					<div>
 						<form action="{{ url('/admin/reply_post') }}" method="post" class="reply-post-form">
 							@csrf
-							<input type="hidden" name="id" value="{{ $article['id'] }}">
+							<input type="hidden" name="id" value="{{ $article->id }}">
 							<table class="reply-post-table">
 								<tbody>
 									<tr>
-										<th><label for="reply-name-{{ $article['id'] }}">名前</label></th>
-										@if (old('id') == $article['id'])
-											<td><input type="text" name="reply-name" id="reply-name-{{ $article['id'] }}" value="{{ old('reply-name') }}" required></td>
+										<th><label for="reply-name-{{ $article->id }}">名前</label></th>
+										@if (old('id') == $article->id)
+											<td><input type="text" name="reply-name" id="reply-name-{{ $article->id }}" value="{{ old('reply-name') }}" required></td>
 										@else
-											<td><input type="text" name="reply-name" id="reply-name-{{ $article['id'] }}" value="" required></td>
+											<td><input type="text" name="reply-name" id="reply-name-{{ $article->id }}" value="" required></td>
 										@endif
 									</tr>
 									<tr>
-										<th><label for="reply-content-{{ $article['id'] }}">投稿内容</label></th>
-										@if (old('id') == $article['id'])
-											<td><textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4" required>{{ old('reply-content') }}</textarea></td>
+										<th><label for="reply-content-{{ $article->id }}">投稿内容</label></th>
+										@if (old('id') == $article->id)
+											<td><textarea name="reply-content" id="reply-content-{{ $article->id }}" rows="4" required>{{ old('reply-content') }}</textarea></td>
 										@else
-											<td><textarea name="reply-content" id="reply-content-{{ $article['id'] }}" rows="4" required></textarea></td>
+											<td><textarea name="reply-content" id="reply-content-{{ $article->id }}" rows="4" required></textarea></td>
 										@endif
 									</tr>
 								</tbody>
 							</table>
 							<button type="submit">返信</button>
 						</form>
-						@if (count($errors) > 0 && old('id') == $article['id'])
+						@if (count($errors) > 0 && old('id') == $article->id)
 							<div class="error-mes">
 								@foreach ($errors->all() as $error)
 									<span>{{$error}}</span>
