@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:8.0.31
+    volumes:
+      - ./docker/db/conf.d:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: bbs
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+  web:
+    build:
+      context: docker/web
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - build_volume:/app/public/build
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+      - node
+  node:
+    build:
+      context: docker/node
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - build_volume:/app/public/build
+    ports:
+      - "5173:5173"
+    tty: true
+volumes:
+  build_volume:

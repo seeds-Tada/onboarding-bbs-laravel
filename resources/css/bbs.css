@@ -1,0 +1,170 @@
+textarea {
+	resize: vertical;
+}
+textarea, input[type=text] {
+	border: solid 1px gray;
+	box-sizing: border-box;
+	padding: 4px;
+	width: 100%;
+}
+body {
+	text-align: center;
+	background-color: #eee;
+}
+.bbs-messages {
+	margin: 0 auto;
+	width: 60%;
+}
+
+.bbs-message {
+	text-align: left;
+	border: 1px solid;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.bbs-message-header {
+	font-size: 0.7em;
+}
+
+.bbs-message-name {
+	font-weight: bold;
+}
+
+.bbs-message-content {
+	font-size: 1em;
+}
+.bbs-message-content pre {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+.bbs-message-button {
+	display: inline-flex;
+}
+
+.post-table {
+	margin: 0 auto;
+}
+.post-table span {
+	text-align: left;
+}
+
+.reply-post-form {
+	text-align: center;
+}
+.reply-post-table {
+	margin: 0 auto;
+}
+.reply-post-switch{
+	font-weight: normal;
+	font-size: 0.8em;
+}
+
+.error-mes {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	color: red;
+}
+
+.flash-alert {
+	position: relative;
+	padding: 0.75rem 1.25rem;
+	margin-bottom: 1rem;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+	animation: fadeOut 2s;
+	animation-fill-mode: both;
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+
+		opacity: 0;
+	}
+}
+
+.flash-alert-success {
+	position:fixed;
+	top: 9%;
+	width: 100%;
+	color: #1d643b;
+	background-color: #d7f3e3;
+	border-color: #c7eed8;
+	transform: translateY(-50%);
+	text-align: center;
+	z-index: 99;
+}
+
+.flash-alert-error {
+	position:fixed;
+	top: 9%;
+	width: 100%;
+	color: #f00;
+	background-color: #fff;
+	font-size: 1.5rem;
+	transform: translateY(-50%);
+	text-align: center;
+	z-index: 99;
+}
+
+.index-reply-switch {
+	font-weight: normal;
+	font-size: 0.8rem;
+}
+.index-reply-to {
+	font-size: 0.7rem;
+	margin-right: 10px;
+}
+
+button {
+	all: revert;
+}
+
+.users-area {
+	margin: 0 auto;
+	width: 90%;
+	border: 1px solid;
+	background-color: #e0e0e0;
+	border-radius: 5px;
+	padding: 5px;
+}
+.users {
+	margin: 0 auto;
+	border: 1px solid;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.users-table-area {
+	overflow-x: auto;
+}
+.users-table {
+	margin: 0 auto;
+	border: 1.5px solid #000;
+}
+.users-table th, .users-table td {
+	border: 1px solid #000;
+}
+.users-table th {
+	background-color: #dbdbff;
+}
+.users-table tr:nth-of-type(even) {
+	background-color: rgb(230 230 230);
+}
+
+.post-users-table-area {
+	overflow-x: auto;
+}
+.post-users-table {
+	margin: 0 auto;
+}
+.post-users-table input {
+	all: revert;
+}
