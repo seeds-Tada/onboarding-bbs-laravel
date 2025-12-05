@@ -13,7 +13,7 @@
 					<pre><a class="index-reply-to" href="#index-message-{{$to['id']}}">>>{{$to['id']}}</a>{{ $article->content }}</pre>
 				</div>
 				<div class="bbs-message-button">
-					<form action="{{ url('/admin/editing/'.$article->id) }}" method="post">
+					<form action="{{ url('/admin/editing/'.$article->id) }}" method="get">
 						@csrf
 						<input type="hidden" name="id" value="{{ $article->id }}">
 						<button type="submit">編集</button>
