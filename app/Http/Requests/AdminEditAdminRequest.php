@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Admin;
 
 class AdminEditAdminRequest extends FormRequest
 {
@@ -21,9 +22,10 @@ class AdminEditAdminRequest extends FormRequest
 	 */
 	public function rules(): array
 	{
+		$admin = Admin::find($this->id);
 		return [
 			'admin_name' => 'required|string|max:255',
-			'admin_email' => 'required|string|email|max:255',
+			'admin_email' => 'required|string|email|max:255|unique:admins,admin_email,'.$admin->admin_email.',admin_email',
 		];
 	}
 }

@@ -188,17 +188,6 @@ class AdminController extends Controller
 	public function admin_edit_complete(AdminEditAdminRequest $request, Admin $article) {
 		$form = $request->only(['admin_name', 'admin_email']);
 
-		if($article->admin_email !== $form['admin_email']) {
-			$admins = Admin::all();
-			foreach($admins as $admin) {
-				if($admin->admin_email === $form['admin_email']) {
-					return back()->withErrors([
-						'admin_edit' => 'そのメールアドレスはすでに登録されています。',
-					]);
-				}
-			}
-		}
-
 		$article->admin_name = $form['admin_name'];
 		$article->admin_email = $form['admin_email'];
 		$result = $article->save();
@@ -249,17 +238,6 @@ class AdminController extends Controller
 
 	public function user_edit_complete(AdminEditUserRequest $request, User $article) {
 		$form = $request->only(['name', 'email']);
-
-		if($article->email !== $form['email']) {
-			$users = User::all();
-			foreach($users as $user) {
-				if($user->email === $form['email']) {
-					return back()->withErrors([
-						'user_edit' => 'そのメールアドレスはすでに登録されています。',
-					]);
-				}
-			}
-		}
 
 		$article->name = $form['name'];
 		$article->email = $form['email'];
